@@ -230,3 +230,125 @@ blockquote cite { display: block; margin-top: 0.6rem; font-size: 0.875rem; font-
   .site-header, .site-footer, .btn { display: none; }
   body { background: #fff; }
 }
+
+
+/* ==========================================================================
+   Photography, feature blocks and bands
+   ========================================================================== */
+
+.center { text-align: center; }
+.center p, p.center { margin-inline: auto; }
+
+.lede { font-size: 1.125rem; color: var(--ink-soft); }
+
+/* --- hero with photograph ---------------------------------------------- */
+
+.hero--full {
+  position: relative;
+  isolation: isolate;
+  background: var(--navy-deep);
+  padding-block: clamp(4rem, 12vw, 7.5rem);
+  overflow: hidden;
+}
+.hero__bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 55%;
+  z-index: -2;
+}
+.hero--full::after {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg,
+    rgba(16,32,48,0.86) 0%,
+    rgba(20,39,58,0.78) 45%,
+    rgba(22,39,58,0.90) 100%);
+}
+.hero--full .wrap { position: relative; }
+
+/* --- service times ------------------------------------------------------ */
+
+.times-section { background: var(--paper); border-bottom: 1px solid var(--rule); }
+.times-section h2 { margin-bottom: 2rem; }
+
+.times--light .time-card {
+  background: var(--cream);
+  border: 1px solid var(--rule);
+}
+.times--light dt { color: var(--gold); }
+.times--light dd { color: var(--navy); font-size: 1.5rem; }
+.times--light dd span { color: var(--ink-faint); }
+
+.times-note {
+  margin-top: 2rem; color: var(--ink-soft); font-size: 0.9375rem;
+}
+
+/* --- announcement ------------------------------------------------------- */
+
+.announce {
+  background: linear-gradient(180deg, var(--cream) 0%, #f4efe4 100%);
+  border-bottom: 1px solid var(--rule);
+}
+.announce .meta { color: var(--gold); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.announce h2 { margin-bottom: 0.75rem; }
+
+/* --- feature (photo + text side by side) -------------------------------- */
+
+.feature__wrap {
+  display: grid; gap: clamp(1.75rem, 5vw, 3.5rem);
+  align-items: center;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 46rem) {
+  .feature__wrap { grid-template-columns: 1fr 1fr; }
+  .feature--reverse .figure { order: 2; }
+}
+
+.figure { margin: 0; }
+.figure img {
+  width: 100%; border-radius: var(--radius);
+  box-shadow: 0 1px 2px rgba(28,37,48,0.08), 0 12px 28px -12px rgba(28,37,48,0.35);
+}
+.figure figcaption {
+  margin-top: 0.75rem; font-size: 0.875rem; color: var(--ink-faint); font-style: italic;
+}
+
+/* --- full-width photo band with scripture ------------------------------- */
+
+.band {
+  position: relative; isolation: isolate;
+  padding-block: clamp(3.5rem, 10vw, 6rem);
+  background: var(--navy-deep);
+  text-align: center;
+  overflow: hidden;
+}
+.band img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.band::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: rgba(16,32,48,0.74);
+}
+.band__quote {
+  margin: 0; border: 0; padding: 0;
+  font-size: clamp(1.25rem, 1rem + 1.4vw, 1.875rem);
+  color: #f4f1ea; font-style: italic;
+}
+.band__quote::before { content: "\201C"; display: block; font-size: 3rem; color: var(--gold-light); line-height: 0.6; font-style: normal; }
+.band__quote cite { color: var(--gold-light); font-style: normal; }
+
+/* --- callout ------------------------------------------------------------ */
+
+.callout {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+.callout h3 { margin-bottom: 0.35rem; }
+.callout p:last-child { margin-bottom: 0; }
+
+/* --- spacing helpers ---------------------------------------------------- */
+
+.grid--loose { margin-top: 2.25rem; }
+.spaced { margin-top: 3rem; }
