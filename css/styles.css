@@ -1,0 +1,232 @@
+/* ==========================================================================
+   Church Website — core styles
+   No external fonts, no trackers, no analytics. Nothing loads from a
+   third-party server, so the site is fast and the congregation isn't tracked.
+   ========================================================================== */
+
+:root {
+  --ink:        #1c2530;
+  --ink-soft:   #4a5765;
+  --ink-faint:  #7b8794;
+  --cream:      #fbf9f5;
+  --paper:      #ffffff;
+  --rule:       #e3ddd2;
+  --gold:       #a8813c;
+  --gold-light: #c9a15c;
+  --navy:       #23384f;
+  --navy-deep:  #16273a;
+
+  --serif: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", serif;
+  --sans:  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --measure: 68ch;
+  --pad: clamp(1.25rem, 5vw, 2.5rem);
+  --radius: 4px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--serif);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--navy);
+  margin: 0 0 0.5em;
+  text-wrap: balance;
+}
+
+h1 { font-size: clamp(2rem, 1.4rem + 3vw, 3.25rem); letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.125rem); }
+h3 { font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.375rem); }
+
+p { margin: 0 0 1.1em; max-width: var(--measure); }
+
+a { color: var(--navy); text-decoration-color: var(--gold-light); text-underline-offset: 3px; }
+a:hover { color: var(--gold); }
+
+img { max-width: 100%; height: auto; display: block; }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+/* --- layout ------------------------------------------------------------- */
+
+.wrap { width: min(100% - 2 * var(--pad), 68rem); margin-inline: auto; }
+.wrap--narrow { width: min(100% - 2 * var(--pad), 46rem); }
+
+section { padding: clamp(2.5rem, 6vw, 4.5rem) 0; }
+section.tight { padding: clamp(1.5rem, 4vw, 2.5rem) 0; }
+
+.skip-link {
+  position: absolute; left: -9999px;
+  background: var(--navy); color: #fff; padding: 0.75rem 1.25rem; z-index: 100;
+}
+.skip-link:focus { left: 0; top: 0; }
+
+/* --- header / nav ------------------------------------------------------- */
+
+.site-header {
+  background: var(--navy);
+  color: #fff;
+  border-bottom: 3px solid var(--gold);
+}
+
+.site-header .wrap {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 0.75rem 1.5rem; padding-block: 0.9rem;
+}
+
+.brand {
+  display: flex; align-items: baseline; gap: 0.6rem;
+  font-family: var(--serif); font-size: 1.25rem;
+  color: #fff; text-decoration: none; margin-right: auto;
+}
+.brand:hover { color: var(--gold-light); }
+.brand small {
+  font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--gold-light);
+}
+
+.site-nav ul {
+  display: flex; flex-wrap: wrap; gap: 0.25rem 1.35rem;
+  list-style: none; margin: 0; padding: 0;
+}
+.site-nav a {
+  color: #e8e3d9; text-decoration: none;
+  font-size: 0.9375rem; padding-block: 0.25rem;
+  border-bottom: 2px solid transparent;
+}
+.site-nav a:hover,
+.site-nav a[aria-current="page"] { color: #fff; border-bottom-color: var(--gold); }
+
+/* --- hero --------------------------------------------------------------- */
+
+.hero {
+  background: linear-gradient(180deg, var(--navy-deep) 0%, var(--navy) 100%);
+  color: #f4f1ea;
+  text-align: center;
+}
+.hero h1 { color: #fff; }
+.hero p { margin-inline: auto; color: #d9d3c7; font-size: 1.0625rem; }
+.hero .eyebrow {
+  font-family: var(--sans); font-size: 0.75rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--gold-light); margin-bottom: 1rem;
+}
+
+/* --- service times ------------------------------------------------------ */
+
+.times {
+  display: grid; gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  margin-top: 2rem;
+}
+.time-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  text-align: left;
+}
+.time-card dt {
+  font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.35rem;
+}
+.time-card dd { margin: 0; font-family: var(--serif); font-size: 1.25rem; color: #fff; }
+.time-card dd span { display: block; font-family: var(--sans); font-size: 0.875rem; color: #c8c2b6; margin-top: 0.25rem; }
+
+/* --- cards / grids ------------------------------------------------------ */
+
+.grid {
+  display: grid; gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+}
+.card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.card h3 { margin-bottom: 0.4rem; }
+.card p:last-child { margin-bottom: 0; }
+.card .meta {
+  font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.6rem;
+}
+
+/* --- buttons ------------------------------------------------------------ */
+
+.btn {
+  display: inline-block;
+  font-family: var(--sans); font-size: 0.9375rem;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid var(--gold);
+  border-radius: var(--radius);
+  background: var(--gold); color: #fff;
+  text-decoration: none; cursor: pointer;
+}
+.btn:hover { background: var(--gold-light); border-color: var(--gold-light); color: #fff; }
+.btn--ghost { background: transparent; color: var(--gold-light); }
+.btn--ghost:hover { background: var(--gold); color: #fff; }
+
+/* --- prose pages -------------------------------------------------------- */
+
+.prose { max-width: var(--measure); }
+.prose h2 { margin-top: 2.25rem; }
+.prose ul, .prose ol { max-width: var(--measure); padding-left: 1.25rem; }
+.prose li { margin-bottom: 0.5rem; }
+blockquote {
+  margin: 1.75rem 0; padding: 0.25rem 0 0.25rem 1.5rem;
+  border-left: 3px solid var(--gold-light);
+  font-family: var(--serif); font-size: 1.125rem; font-style: italic; color: var(--ink-soft);
+}
+blockquote cite { display: block; margin-top: 0.6rem; font-size: 0.875rem; font-style: normal; color: var(--ink-faint); }
+
+/* --- placeholder marker ------------------------------------------------- */
+
+.todo {
+  background: #fff6d9; border: 1px dashed #d9b44a;
+  border-radius: var(--radius); padding: 0.6rem 0.9rem;
+  font-size: 0.875rem; color: #6b5314; margin: 1rem 0;
+}
+.todo::before {
+  content: "TO FILL IN — ";
+  font-weight: 700; letter-spacing: 0.08em; font-size: 0.7rem;
+}
+
+/* --- footer ------------------------------------------------------------- */
+
+.site-footer {
+  background: var(--navy-deep); color: #b9b3a7;
+  font-size: 0.875rem; padding: 2.5rem 0; margin-top: 3rem;
+}
+.site-footer a { color: #ded8cb; }
+.site-footer .wrap { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+.site-footer h3 { color: var(--gold-light); font-family: var(--sans); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.site-footer ul { list-style: none; margin: 0; padding: 0; }
+.site-footer li { margin-bottom: 0.35rem; }
+.site-footer .legal { grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 1.25rem; color: var(--ink-faint); }
+
+/* --- accessibility / motion -------------------------------------------- */
+
+:focus-visible { outline: 3px solid var(--gold-light); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+@media print {
+  .site-header, .site-footer, .btn { display: none; }
+  body { background: #fff; }
+}
