@@ -192,18 +192,6 @@ blockquote {
 }
 blockquote cite { display: block; margin-top: 0.6rem; font-size: 0.875rem; font-style: normal; color: var(--ink-faint); }
 
-/* --- placeholder marker ------------------------------------------------- */
-
-.todo {
-  background: #fff6d9; border: 1px dashed #d9b44a;
-  border-radius: var(--radius); padding: 0.6rem 0.9rem;
-  font-size: 0.875rem; color: #6b5314; margin: 1rem 0;
-}
-.todo::before {
-  content: "TO FILL IN — ";
-  font-weight: 700; letter-spacing: 0.08em; font-size: 0.7rem;
-}
-
 /* --- footer ------------------------------------------------------------- */
 
 .site-footer {
@@ -294,6 +282,9 @@ blockquote cite { display: block; margin-top: 0.6rem; font-size: 0.875rem; font-
 
 /* --- feature (photo + text side by side) -------------------------------- */
 
+/* `.feature` is a semantic hook on the section; the layout lives in __wrap. */
+.feature { background: var(--paper); }
+
 .feature__wrap {
   display: grid; gap: clamp(1.75rem, 5vw, 3.5rem);
   align-items: center;
@@ -312,6 +303,19 @@ blockquote cite { display: block; margin-top: 0.6rem; font-size: 0.875rem; font-
 .figure figcaption {
   margin-top: 0.75rem; font-size: 0.875rem; color: var(--ink-faint); font-style: italic;
 }
+
+/* The text half of a feature block: same comfortable measure as prose. */
+.feature__text { max-width: var(--measure); }
+.feature__text h2 { margin-top: 0; }
+.feature__text p:last-child { margin-bottom: 0; }
+
+/* A quieter callout, for "this is on its way" notes rather than imperatives. */
+.callout--quiet {
+  border-left-color: var(--rule);
+  background: transparent;
+  box-shadow: none;
+}
+.callout--quiet p { color: var(--ink-soft); font-size: 0.9375rem; }
 
 /* --- full-width photo band with scripture ------------------------------- */
 
@@ -352,3 +356,34 @@ blockquote cite { display: block; margin-top: 0.6rem; font-size: 0.875rem; font-
 
 .grid--loose { margin-top: 2.25rem; }
 .spaced { margin-top: 3rem; }
+
+
+/* ==========================================================================
+   Embeds: map, calendar
+   ========================================================================== */
+
+.embed { display: block; width: 100%; border: 0; }
+
+.map-wrap {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--paper);
+}
+.map-embed { height: clamp(18rem, 45vw, 26rem); filter: saturate(0.92); }
+
+.calendar-wrap {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--paper);
+  padding: 0.75rem;
+}
+.calendar-embed { height: clamp(30rem, 70vw, 42rem); }
+
+.fine-print { font-size: 0.8125rem; color: var(--ink-faint); margin-top: 0.6rem; }
+
+/* small secondary line inside footer service times */
+.site-footer .fine { display: block; font-size: 0.8125rem; color: var(--ink-faint); margin-top: 0.1rem; }
+
+@media print { .map-wrap, .calendar-wrap { display: none; } }

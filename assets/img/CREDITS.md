@@ -1,12 +1,11 @@
 # Image credits
 
-All photographs on this site are released under **CC0 1.0 (Public Domain Dedication)**,
-which places them in the public domain: no attribution is legally required, and they may
-be used commercially. Credit is given here anyway, because it is right to do so.
+Every photograph on this site is released under **CC0 1.0 (Public Domain Dedication)**, which
+places it in the public domain: no attribution is legally required, and commercial use is
+permitted. Credit is given here anyway, because it is right to do so.
 
-CC0 also means the church is under no obligation, no licence fee, and no risk of a
-copyright claim — which is why these were chosen over images found through a general
-image search.
+CC0 means the church carries no licence fee and no risk of a copyright claim, which is why
+these were chosen over images found through a general image search.
 
 | File | Subject | Source | Licence |
 |---|---|---|---|
@@ -14,21 +13,24 @@ image search.
 | `open-bible.jpg` | Open Bible (Aaron Burden) | StockSnap | CC0 1.0 |
 | `praying.jpg` | Hands in prayer on an open Bible | Rawpixel | CC0 1.0 |
 | `wheat-sunset.jpg` | Wheat field at sunset | Rawpixel | CC0 1.0 |
-| `oklahoma-railroad.jpg` | Railroad through a small Oklahoma town | Library of Congress via Rawpixel | CC0 1.0 |
-| `oklahoma-barn.jpg` | Round barn, Arcadia, Oklahoma (1979) | Library of Congress via Rawpixel | CC0 1.0 |
 
-## These are placeholders
+Each is stored twice: a 1024px original and a 640px version for smaller screens, referenced
+from the `srcset` attributes.
 
-They are here so the site looks finished while the real photographs are gathered.
-Nothing beats pictures of your own building and your own congregation — a church website
-with real faces on it works far harder than one with stock photography.
+## These are placeholders - the real ones would be better
 
-Photographs worth taking: the building from the road, the sanctuary, the choir, the
-children's classrooms, the new building site as it progresses, and the Tour of Christmas.
+They are here so the site looks finished while proper photographs are gathered. Nothing beats
+pictures of the church's own building and congregation; a website with real faces on it works
+far harder than one with stock photography.
 
-## One image deliberately rejected
+Worth taking: the building from the road, the sanctuary, a Sunday morning congregation, the
+children's classrooms, the youth at the Activities Center, the new building as it goes up, and
+the Tour of Christmas.
 
-A "praying hands close-up" was removed from the shortlist after a visual check: it showed
-hands holding a **rosary**, a distinctly Catholic devotional object. Correct for many
-churches, wrong for a Free Will Baptist congregation. It was caught by looking at the
-picture rather than trusting its filename.
+## Images reviewed and deliberately not used
+
+- A "praying hands" close-up that turned out to be hands holding a **rosary** - a distinctly
+  Catholic devotional object, wrong for a Free Will Baptist congregation.
+- A round barn and a small-town railroad photograph. Both were decent pictures, but they framed
+  the church as rural nostalgia, and the church's own guidance is that being "country" is not a
+  primary part of its identity.

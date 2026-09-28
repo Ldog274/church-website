@@ -1,34 +1,25 @@
-# Church Website
+# East Side Free Will Baptist Church
 
-Static site for [CHURCH NAME], hosted free on GitHub Pages.
+Static site for East Side Free Will Baptist Church, Muldrow, Oklahoma.
+Hosted free on GitHub Pages at <https://eastsidefwbc.org/>.
 
 ## How it is published
 
-Every push to `main` updates the live website within about a minute. There is no
-build step, no framework, and no dependencies - just HTML and one CSS file.
+Every push to `main` updates the live website within about a minute. There is no build step,
+no framework and no dependencies - just HTML and one CSS file.
 
 - `index.html` - home
-- `about.html` - about us / plan a visit
+- `about.html` - about us, our pastors, planning a visit
 - `beliefs.html` - what we believe
 - `ministries.html` - ministries
-- `sermons.html` - sermons
+- `calendar.html` - church calendar
+- `sermons.html` - sermons and livestream
 - `give.html` - giving
-- `contact.html` - contact and directions
+- `contact.html` - contact, directions, map
 - `404.html` - shown for a bad URL
 - `css/styles.css` - all styling, one file
-- `CNAME` - the custom domain, once it is configured
-
-## Placeholders
-
-Every value that needs real information is written as a bracketed placeholder,
-for example `[CHURCH NAME]` or `[9:30 AM]`. Find them all with:
-
-```bash
-grep -rn '\[' --include='*.html' .
-```
-
-Blocks marked **TO FILL IN** render as a yellow note on the page so nothing goes
-live half-finished. Delete the `<div class="todo">...</div>` wrapper once filled.
+- `assets/img/` - photographs, with credits in `assets/img/CREDITS.md`
+- `CNAME` - the custom domain. GitHub manages this file; do not edit or delete it.
 
 ## Editing
 
@@ -38,10 +29,31 @@ Edit the file, commit, push. That is the whole workflow.
 git add -A && git commit -m "Update service times" && git push
 ```
 
-## Notes
+## The calendar
 
-- No fonts, scripts, or images are loaded from third-party servers. Pages include
-  no tracking, no cookies, and no analytics, so there is nothing to disclose in a
-  privacy notice.
-- Do not put bank details, giving account numbers, or member information in this
-  repository. It is a public repository.
+`calendar.html` is ready to be wired to the church's Google Calendar, so events added there
+appear on the site automatically. To switch it on:
+
+1. In Google Calendar, hover the church calendar, open **Settings and sharing**.
+2. Under *Access permissions for events*, tick **Make available to public**.
+3. Under *Integrate calendar*, copy the **Calendar ID**.
+4. In `calendar.html`, replace `YOUR_CALENDAR_ID` in the commented-out iframe, delete the
+   comment marks around that iframe, and delete the `callout--quiet` block beneath it.
+
+The calendar must be public or the embed will not render, and only events on that calendar
+are shown - so keep private appointments on a separate calendar.
+
+## Privacy and third parties
+
+The site loads no fonts, scripts or analytics from third-party servers. Two elements are
+Google's, and they only load when the visitor scrolls to them:
+
+- the Google Map on `contact.html`
+- the Google Calendar on `calendar.html`, once enabled
+
+Both set Google's own cookies when they load.
+
+## Please keep out of this repository
+
+It is a public repository. Do not commit bank details, giving account numbers, or member
+information.
