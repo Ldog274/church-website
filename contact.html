@@ -4,9 +4,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact &mdash; East Side Free Will Baptist Church</title>
-<meta name="description" content="Address, map, phone, directions and pastoral care contact for East Side Free Will Baptist Church, Muldrow, Oklahoma.">
+<meta name="description" content="Address, phone, email, directions, a message form, and pastoral care contact for East Side Free Will Baptist Church in Muldrow, Oklahoma.">
 <link rel="canonical" href="https://eastsidefwbc.org/contact.html">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="East Side Free Will Baptist Church">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Contact &mdash; East Side Free Will Baptist Church">
+<meta property="og:description" content="Address, phone, email, directions, a message form, and pastoral care contact for East Side Free Will Baptist Church in Muldrow, Oklahoma.">
+<meta property="og:url" content="https://eastsidefwbc.org/contact.html">
+<meta property="og:image" content="https://eastsidefwbc.org/assets/img/social-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="East Side Free Will Baptist Church, Muldrow, Oklahoma">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact &mdash; East Side Free Will Baptist Church">
+<meta name="twitter:description" content="Address, phone, email, directions, a message form, and pastoral care contact for East Side Free Will Baptist Church in Muldrow, Oklahoma.">
+<meta name="twitter:image" content="https://eastsidefwbc.org/assets/img/social-card.jpg">
+
+<meta name="theme-color" content="#14273a">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
+
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -37,6 +58,7 @@
       <p class="prose lede">We would be glad to hear from you &mdash; whether you have a question, need
       prayer, or want someone to visit.</p>
 
+      <h2 class="spaced">How to reach us</h2>
       <div class="grid grid--loose">
         <article class="card">
           <h3>Address</h3>
@@ -74,25 +96,82 @@
         </article>
         <article class="card">
           <h3>Find us</h3>
-          <p>We are at 613 E Sequoyah St in Muldrow, a block east of the main road, in Sequoyah County.</p>
+          <p>We are at 613 E Sequoyah St in Muldrow, a block east of the main road, in Sequoyah County. There
+          is a map on our <a href="index.html#find-us">home page</a>.</p>
         </article>
       </div>
 
-      <h2 class="spaced">Find us on the map</h2>
-      <div class="map-wrap">
-        <iframe class="embed map-embed"
-                title="Map showing East Side Free Will Baptist Church at 613 E Sequoyah St, Muldrow, Oklahoma"
-                src="https://www.google.com/maps?q=613+E+Sequoyah+St,+Muldrow,+OK+74948&z=16&output=embed"
-                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-      <p class="fine-print">Map data &copy; Google. <a href="https://www.google.com/maps/dir/?api=1&destination=613+E+Sequoyah+St,+Muldrow,+OK+74948">Open in Google Maps</a></p>
-
       <h2 class="spaced">Send us a message</h2>
       <div class="wrap--narrow prose">
-        <p>Please email us at <a href="mailto:eastsidefwbc@gmail.com">eastsidefwbc@gmail.com</a>, or call the church at
-        <a href="tel:+19184275116">(918) 427-5116</a>, and someone will reply. You are also welcome to send a
-        message through our <a href="https://www.facebook.com/esfwbc">Facebook page</a>.</p>
+        <p>Whether it is a question, a prayer request, or something you would like a pastor to know
+        about, you are welcome to write to us here.</p>
       </div>
+
+      <form class="form" id="contact-form" method="post"
+            action="mailto:eastsidefwbc@gmail.com" enctype="text/plain">
+        <div class="form__row">
+          <label for="cf-name">Your name</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="form__row">
+          <label for="cf-contact">How we can reach you
+            <span class="form__hint">email or phone &mdash; only if you would like a reply</span></label>
+          <input id="cf-contact" name="contact" type="text" autocomplete="email">
+        </div>
+        <div class="form__row">
+          <label for="cf-message">Your message or prayer request</label>
+          <textarea id="cf-message" name="message" rows="6" required></textarea>
+        </div>
+        <div class="form__row form__row--check">
+          <input id="cf-followup" name="followup" type="checkbox" value="Yes">
+          <label for="cf-followup">I would like a pastor to follow up with me</label>
+        </div>
+        <p><button class="btn" type="submit">Send message</button></p>
+      </form>
+
+      <div class="callout callout--quiet" id="cf-sent" hidden>
+        <p><strong>Thank you.</strong> Your email program should have opened with the message ready to
+        send. If it did not, please write to <a href="mailto:eastsidefwbc@gmail.com">eastsidefwbc@gmail.com</a> or call
+        <a href="tel:+19184275116">(918) 427-5116</a> &mdash; we would not want to miss you.</p>
+      </div>
+
+      <p class="fine-print">This form hands your message to your own email program; nothing is stored on
+      this website. Anything you send to the church is read by the pastoral staff. If you would rather
+      speak to a person, call <a href="tel:+19184275116">(918) 427-5116</a>.</p>
+
+      <script>
+      (function () {
+        var form = document.getElementById('contact-form');
+        if (!form) return;
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          var val = function (id) {
+            var el = document.getElementById(id);
+            return el ? el.value.trim() : '';
+          };
+          var name = val('cf-name');
+          var contact = val('cf-contact');
+          var message = val('cf-message');
+          var followup = document.getElementById('cf-followup').checked ? 'Yes' : 'No';
+          var body = 'Name: ' + name + '\n'
+                   + 'Reach me at: ' + (contact || 'not given') + '\n'
+                   + 'Pastor follow-up requested: ' + followup + '\n\n'
+                   + message + '\n';
+          var subject = 'Website message from ' + (name || 'the church website');
+          window.location.href = 'mailto:eastsidefwbc@gmail.com'
+            + '?subject=' + encodeURIComponent(subject)
+            + '&body=' + encodeURIComponent(body);
+          var done = document.getElementById('cf-sent');
+          if (done) done.hidden = false;
+        });
+      })();
+      </script>
+
+      <h2 class="spaced">Prayer and pastoral care</h2>
+      <p class="prose">If you need prayer, or need someone to visit, please tell us &mdash; you do not
+      need to explain more than you wish to. Call the church at <a href="tel:+19184275116">(918) 427-5116</a>, write to
+      <a href="mailto:eastsidefwbc@gmail.com">eastsidefwbc@gmail.com</a>, or send a message through our
+      <a href="https://www.facebook.com/esfwbc">Facebook page</a>.</p>
     </div>
   </section>
 
