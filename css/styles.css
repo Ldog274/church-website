@@ -469,40 +469,23 @@ section[id] { scroll-margin-top: 5.5rem; }
   color: var(--ink-faint);
 }
 
-/* Below the seven-column layout stops being readable, so the grid gives way
-   to a stacked agenda keyed by weekday instead of squeezing the cells. */
+/* Below the seven-column layout no longer fits, the grid keeps its real shape
+   and scrolls sideways inside its own container. Shrinking the type until it
+   "fits" leaves phrases chopped mid-word, which is worse than a swipe. */
+.cal-scroll {
+  position: relative;   /* containing block for the visually-hidden date labels,
+                           so they clip here instead of widening the whole page */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.cal-scroll:focus-visible {
+  outline: 2px solid var(--accent, #8a6d1f);
+  outline-offset: 2px;
+}
+
 @media (max-width: 46rem) {
-  .cal-grid { display: block; border: 0; background: none; }
-  .cal-grid thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-  .cal-grid tbody, .cal-grid tr, .cal-grid td { display: block; width: 100%; }
-  .cal-grid tr {
-    border: 1px solid var(--rule);
-    border-radius: var(--radius);
-    background: var(--paper);
-    margin-bottom: 0.5rem;
-    padding: 0.5rem 0.65rem;
-  }
-  .cal-grid td.cal-cell, .cal-grid td.cal-cell--empty {
-    min-height: 0;
-    border: 0;
-    padding: 0;
-    background: none;
-    display: none;
-  }
-  .cal-grid td.cal-cell--busy { display: block; }
-  .cal-cell__num {
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
-  }
-  .cal-cell__num::after {
-    content: attr(data-weekday);
-    font-weight: 400;
-    font-size: 0.8125rem;
-    color: var(--ink-faint);
-    margin-left: 0.4rem;
-  }
-  .cal-cell__time { display: inline; margin-right: 0.35rem; font-size: 0.75rem; }
-  .cal-cell__events li { display: flex; gap: 0.4rem; }
+  .cal-grid { min-width: 40rem; }
 }
 
 /* small secondary line inside footer service times */

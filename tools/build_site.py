@@ -761,6 +761,8 @@ def cal_month_html(month, year, entries):
 
     out = ['    <div class="cal-month">',
            '      <h3 class="cal-month__name">%s</h3>' % month,
+           '      <div class="cal-scroll" tabindex="0" role="region"',
+           '           aria-label="%s %d month grid, scrolls sideways">' % (month, year),
            '      <table class="cal-grid">',
            '        <caption class="visually-hidden">%s %d</caption>' % (month, year),
            '        <thead>',
@@ -808,6 +810,7 @@ def cal_month_html(month, year, entries):
 
     out += ['        </tbody>',
             '      </table>',
+            '      </div>',
             '    </div>']
     return "\n".join(out)
 
