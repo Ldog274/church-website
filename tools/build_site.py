@@ -10,6 +10,8 @@ CITY   = "Muldrow, OK 74948"
 TELD   = "(918) 427-5116"
 TEL    = "tel:+19184275116"
 FB     = "https://www.facebook.com/esfwbc"
+VISION_URL = "https://eastsidefwb.churchcenter.com/giving/to/vision-fund"
+CHAIR_URL  = "https://eastsidefwb.churchcenter.com/giving/to/chair-donation"
 EMAIL  = "eastsidefwbc@gmail.com"
 ACT    = "1302 S. Main St."
 MAPDIR = "https://www.google.com/maps/dir/?api=1&destination=613+E+Sequoyah+St,+Muldrow,+OK+74948"
@@ -944,35 +946,6 @@ give_body = """  <section>
       the preaching of the Word, the ministry to our children, and the care we carry to the sick, the
       shut-in, and the grieving.</p>
 
-      <blockquote>
-        Every man according as he purposeth in his heart, so let him give; not grudgingly, or of necessity: for God loveth a cheerful giver.
-        <cite>&mdash; 2 Corinthians 9:7</cite>
-      </blockquote>
-
-      <h2>Ways to give</h2>
-
-      <h3>In person</h3>
-      <p>Offering plates are passed during the Sunday morning service. Envelopes are available at the back
-      of the sanctuary for those who would like their giving recorded for the year-end statement.</p>
-
-      <h3>By mail</h3>
-      <p>%(name)s<br>%(street)s<br>%(city)s</p>
-
-      <h3>Online</h3>
-      <!-- When the online giving link arrives, replace the paragraph below with a single
-           button and nothing else - one obvious place to give online:
-
-             <p><a class="btn" href="GIVING_URL">Give Online</a></p> -->
-      <p>Online giving is being arranged, and will appear here as a single button once it is
-      ready.</p>
-
-      <h2>Questions about giving</h2>
-      <p>Call the church at <a href="%(tel)s">%(teld)s</a> and someone will be glad to help.</p>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap wrap--narrow prose">
       <h2>Current fundraising goals</h2>
 
       <p class="lede">The Vision Fund and the Chair Fund are both moving forward. Here is where we stand
@@ -1001,8 +974,7 @@ give_body = """  <section>
         <p class="give-goal__pct">37.9%% of our $200,000 goal &mdash; through December 2026</p>
       </div>
 
-      <!-- TODO(logan): add Vision Fund giving link here once church provides the URL -->
-      <p><a class="btn" href="#">Give to the Vision Fund &mdash; link coming soon</a></p>
+      <p><a class="btn" href="%(vision_url)s">Give to the Vision Fund</a></p>
 
       <h3>Chair Fund</h3>
       <p>The Chair Fund is the fund we use for the needs the church sees first. Every dollar goes
@@ -1026,8 +998,34 @@ give_body = """  <section>
         <p class="give-goal__pct">53%% of our $21,964.87 goal</p>
       </div>
 
-      <!-- TODO(logan): add Chair Fund giving link here once church provides the URL -->
-      <p><a class="btn" href="#">Give to the Chair Fund &mdash; link coming soon</a></p>
+      <p><a class="btn" href="%(chair_url)s">Give to the Chair Fund</a></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap wrap--narrow prose">
+      <blockquote>
+        Every man according as he purposeth in his heart, so let him give; not grudgingly, or of necessity: for God loveth a cheerful giver.
+        <cite>&mdash; 2 Corinthians 9:7</cite>
+      </blockquote>
+
+      <h2>Ways to give</h2>
+
+      <h3>In person</h3>
+      <p>Offering plates are passed during the Sunday morning service. Envelopes are available at the back
+      of the sanctuary for those who would like their giving recorded for the year-end statement.</p>
+
+      <h3>By mail</h3>
+      <p>%(name)s<br>%(street)s<br>%(city)s</p>
+
+      <h3>Online</h3>
+      <!-- Online giving is handled by Church Center. The two fund buttons at the top of
+           this page are the live giving links. -->
+      <p>Online giving runs through Church Center. Use the fund buttons at the top of this page to give
+      to the Vision Fund or the Chair Fund directly.</p>
+
+      <h2>Questions about giving</h2>
+      <p>Call the church at <a href="%(tel)s">%(teld)s</a> and someone will be glad to help.</p>
     </div>
   </section>
 
@@ -1046,7 +1044,8 @@ give_body = """  <section>
       </div>
     </div>
   </section>
-""" % dict(name=NAME, street=STREET, city=CITY, tel=TEL, teld=TELD, img=IMG)
+""" % dict(name=NAME, street=STREET, city=CITY, tel=TEL, teld=TELD, img=IMG,
+           vision_url=VISION_URL, chair_url=CHAIR_URL)
 
 open(os.path.join(D, "give.html"), "w", encoding="utf-8").write(render(
     "give.html",
