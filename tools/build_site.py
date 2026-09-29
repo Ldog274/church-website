@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Generate the finished East Side FWB church site."""
-import os, re, datetime
+import os, re, calendar, datetime
 
 D = r"C:/Users/logan/church-website"
 
@@ -635,6 +635,8 @@ print("ministries.html written")
 # month is a list of (day, [(time, title), ...]) in the order the sheet lists
 # them. To update, edit this table and re-run the generator - never the HTML.
 # Times the sheet left blank are recorded as None and simply omit the time.
+MONTH_NUM = {"September": 9, "October": 10, "November": 11}
+
 CHURCH_CALENDAR = [
     ("September 2026", [
         (2,  [("7:00 PM", "Bro. Trenton Forever devotion at the Activities Center"),
@@ -664,7 +666,7 @@ CHURCH_CALENDAR = [
         (22, [("10:30 AM", "WWBS"),
               ("6:30 PM",  "BATTL")]),
         (23, [("7:00 PM",  "Men&rsquo;s Bible Study")]),
-        (25, [(None,      "East Side feeds the band and cheer squads (75)")]),
+        (25, [(None,      "East Side feeds the football and cheer squads (75)")]),
         (27, [(None,      "WAC &ldquo;Dollar Days for Missions&rdquo; offering"),
               (None,      "Family &ldquo;All-in-One&rdquo; worship"),
               ("6:00 PM",  "Revival with Bro. Earl Roberts")]),
@@ -700,7 +702,7 @@ CHURCH_CALENDAR = [
         (21, [("7:00 PM",  "WAC"),
               ("7:00 PM",  "Men&rsquo;s Bible Study")]),
         (22, [("6:30&ndash;8:00 PM", "GriefShare in the Fellowship Hall")]),
-        (23, [(None,      "East Side feeds the band and cheer squads (75)")]),
+        (23, [(None,      "East Side feeds the football and cheer squads (75)")]),
         (25, [(None,      "WAC &ldquo;Dollar Days for Missions&rdquo; offering"),
               (None,      "Family &ldquo;All-in-One&rdquo; worship"),
               (None,      "CAMO Sunday"),
@@ -743,30 +745,73 @@ CHURCH_CALENDAR = [
 ]
 
 def cal_month_html(month, year, entries):
-    """Render one month of the church calendar as a table."""
-    out = ['    <h3 class="cal-month">%s</h3>' % month,
-           '    <table class="cal-table">',
-           '      <caption class="visually-hidden">%s</caption>' % month,
-           '      <tbody>']
-    for day, items in entries:
-        name = datetime.date(year, MONTH_NUM[month.split()[0]], day).strftime("%A")
-        out.append('        <tr>')
-        out.append('          <th scope="row" class="cal-day">%s<span>%d</span></th>' % (name, day))
-        out.append('          <td class="cal-items">')
-        out.append('            <ul>')
-        for time, title in items:
-            if time:
-                out.append('              <li><span class="cal-time">%s</span>%s</li>' % (time, title))
-            else:
-                out.append('              <li>%s</li>' % title)
-        out.append('            </ul>')
-        out.append('          </td>')
-        out.append('        </tr>')
-    out += ['      </tbody>', '    </table>']
+    """Render one month of the church calendar as a traditional month grid.
+
+    Seven columns, Sunday first, with the events for each day inside its own
+    cell. The day number is real text in a row-scoped cell position so screen
+    readers and search engines both get a usable date out of it.
+    """
+    first = month.split()[0]
+    mnum = MONTH_NUM[first]
+    by_day = dict(entries)
+
+    # Monday=0 .. Sunday=6 in datetime, but the grid starts on Sunday.
+    lead = (datetime.date(year, mnum, 1).weekday() + 1) % 7
+    ndays = calendar.monthrange(year, mnum)[1]
+
+    out = ['    <div class="cal-month">',
+           '      <h3 class="cal-month__name">%s</h3>' % month,
+           '      <table class="cal-grid">',
+           '        <caption class="visually-hidden">%s %d</caption>' % (month, year),
+           '        <thead>',
+           '          <tr>']
+    for dname in ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"):
+        out.append('            <th scope="col" class="cal-grid__wd"><abbr title="%s">%s</abbr></th>'
+                   % (dname, dname))
+    out += ['          </tr>',
+            '        </thead>',
+            '        <tbody>']
+
+    cells = ([None] * lead) + list(range(1, ndays + 1))
+    while len(cells) % 7:
+        cells.append(None)
+
+    for wk in range(0, len(cells), 7):
+        out.append('          <tr>')
+        for day in cells[wk:wk + 7]:
+            if day is None:
+                out.append('            <td class="cal-cell cal-cell--empty"></td>')
+                continue
+            items = by_day.get(day, [])
+            date = datetime.date(year, mnum, day)
+            longname = "%s %s %d, %d" % (date.strftime("%A"), month.split()[0],
+                                         day, year)
+            cls = "cal-cell"
+            if items:
+                cls += " cal-cell--busy"
+            out.append('            <td class="%s">' % cls)
+            out.append('              <span class="visually-hidden">%s</span>' % longname)
+            out.append('              <span class="cal-cell__day" aria-hidden="true">'
+                       '<span class="cal-cell__num" data-weekday="%s">%d</span></span>'
+                       % (date.strftime("%A"), day))
+            if items:
+                out.append('              <ul class="cal-cell__events">')
+                for time, title in items:
+                    if time:
+                        out.append('                <li><span class="cal-cell__time">%s</span>%s</li>'
+                                   % (time, title))
+                    else:
+                        out.append('                <li>%s</li>' % title)
+                out.append('              </ul>')
+            out.append('            </td>')
+        out.append('          </tr>')
+
+    out += ['        </tbody>',
+            '      </table>',
+            '    </div>']
     return "\n".join(out)
 
 
-MONTH_NUM = {"September": 9, "October": 10, "November": 11}
 cal_sections = "\n".join(
     cal_month_html(m, 2026, e) for m, e in CHURCH_CALENDAR)
 
@@ -1117,7 +1162,6 @@ print("404.html written")
 
 # --------------------------------------------------- sitemap + robots
 # Generated here so both stay in step with the pages themselves.
-import datetime
 
 SITEMAP_PAGES = [
     ("", "1.0"), ("about.html", "0.8"), ("beliefs.html", "0.8"),

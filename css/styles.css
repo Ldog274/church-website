@@ -404,70 +404,105 @@ section[id] { scroll-margin-top: 5.5rem; }
   clip: rect(0 0 0 0); clip-path: inset(50%); overflow: hidden; white-space: nowrap;
 }
 
-/* --- the church calendar table on calendar.html --------------------------- */
+/* --- the church calendar grids on calendar.html -------------------------- */
 
-.cal-month {
-  margin: 2.5rem 0 0.9rem;
+.cal-month { margin: 2.2rem 0 0.6rem; }
+.cal-month__name {
   font-size: 1.0625rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-soft);
+  margin: 0 0 0.5rem;
 }
-.cal-month:first-of-type { margin-top: 1.5rem; }
 
-.cal-table {
+.cal-grid {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
   background: var(--paper);
   border: 1px solid var(--rule);
   border-radius: var(--radius);
+  overflow: hidden;
 }
-.cal-table tr + tr { border-top: 1px solid var(--rule); }
+.cal-grid th, .cal-grid td { border: 1px solid var(--rule); }
 
-.cal-day {
-  width: 6.5rem;
-  padding: 0.7rem 0.9rem;
-  text-align: left;
-  font-weight: 600;
-  font-size: 0.8125rem;
-  letter-spacing: 0.05em;
+.cal-grid thead th {
+  padding: 0.45rem 0.3rem;
+  background: var(--paper-alt, #f6f3ec);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-soft);
+  text-align: center;
+}
+.cal-grid thead abbr { text-decoration: none; border: 0; }
+
+.cal-cell {
   vertical-align: top;
-  white-space: nowrap;
+  padding: 0.3rem 0.35rem 0.4rem;
+  min-height: 4.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.35;
 }
-.cal-day span {
-  display: block;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--ink);
-  line-height: 1.1;
-}
+.cal-cell--empty { background: rgba(0, 0, 0, 0.02); }
 
-.cal-items { padding: 0.7rem 0.9rem; }
-.cal-items ul { list-style: none; margin: 0; padding: 0; }
-.cal-items li {
-  margin: 0;
-  line-height: 1.5;
-}
-.cal-items li + li { margin-top: 0.3rem; }
-
-.cal-time {
+.cal-cell__num {
   display: inline-block;
-  min-width: 4.6rem;
-  margin-right: 0.6rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
-  font-size: 0.875rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.15rem;
+}
+.cal-cell--busy .cal-cell__num { color: var(--accent, #8a6d1f); }
+
+.cal-cell__events { list-style: none; margin: 0; padding: 0; }
+.cal-cell__events li { margin: 0 0 0.15rem; }
+.cal-cell__events li:last-child { margin-bottom: 0; }
+
+.cal-cell__time {
+  display: block;
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
   color: var(--ink-faint);
 }
 
-@media (max-width: 30rem) {
-  .cal-day { width: 4.5rem; padding: 0.6rem 0.6rem; }
-  .cal-day span { font-size: 1.25rem; }
-  .cal-items { padding: 0.6rem; }
-  .cal-time { display: block; min-width: 0; margin-right: 0; }
+/* Below the seven-column layout stops being readable, so the grid gives way
+   to a stacked agenda keyed by weekday instead of squeezing the cells. */
+@media (max-width: 46rem) {
+  .cal-grid { display: block; border: 0; background: none; }
+  .cal-grid thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .cal-grid tbody, .cal-grid tr, .cal-grid td { display: block; width: 100%; }
+  .cal-grid tr {
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    background: var(--paper);
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.65rem;
+  }
+  .cal-grid td.cal-cell, .cal-grid td.cal-cell--empty {
+    min-height: 0;
+    border: 0;
+    padding: 0;
+    background: none;
+    display: none;
+  }
+  .cal-grid td.cal-cell--busy { display: block; }
+  .cal-cell__num {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  .cal-cell__num::after {
+    content: attr(data-weekday);
+    font-weight: 400;
+    font-size: 0.8125rem;
+    color: var(--ink-faint);
+    margin-left: 0.4rem;
+  }
+  .cal-cell__time { display: inline; margin-right: 0.35rem; font-size: 0.75rem; }
+  .cal-cell__events li { display: flex; gap: 0.4rem; }
 }
 
 /* small secondary line inside footer service times */
