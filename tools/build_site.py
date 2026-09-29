@@ -45,7 +45,7 @@ CHURCH_SCHEMA = """<script type="application/ld+json">
 </script>"""
 
 NAV = [("index.html", "Home"), ("about.html", "About"), ("beliefs.html", "What We Believe"),
-       ("ministries.html", "Ministries"), ("calendar.html", "Calendar"), ("sermons.html", "Sermons"),
+       ("ministries.html", "Ministries"), ("calendar.html", "Calendar"), ("announcements.html", "Announcements"), ("sermons.html", "Sermons"),
        ("give.html", "Give"), ("contact.html", "Contact")]
 
 
@@ -331,9 +331,13 @@ about_body = """  <section>
       <h2>Our pastors</h2>
 
       <h3>Pastor Anthony Williams</h3>
-      <p>Pastor Anthony Williams has served this church since <strong>2001</strong>. In that time he
-      has baptized, married, and buried much of this community, and he still preaches the Word plainly
-      week by week.</p>
+      <p>Pastor Anthony Williams has faithfully served East Side Free Will Baptist Church since
+      <strong>2001</strong>. For more than two decades, he has walked alongside generations of
+      families through some of life&rsquo;s most meaningful moments&mdash;baptizing new believers,
+      officiating weddings, comforting families through loss, and faithfully serving the community.
+      Through it all, his heart for people and commitment to Scripture have remained constant. Each
+      week, Pastor Anthony continues to preach the Word of God plainly, faithfully, and with a desire
+      to see lives changed by the gospel.</p>
 
       <h3>Associate Pastor Logan Williams</h3>
       <p>Logan Williams has served as associate pastor since <strong>2024</strong>. He is Pastor
@@ -967,6 +971,66 @@ give_body = """  <section>
     </div>
   </section>
 
+  <section>
+    <div class="wrap wrap--narrow prose">
+      <h2>Current fundraising goals</h2>
+
+      <p class="lede">The Vision Fund and the Chair Fund are both moving forward. Here is where we stand
+      and where we are headed.</p>
+
+      <h3>Final Construction Phase Push</h3>
+      <p class="callout">The Vision Fund is running through December 2026 as we push through the final
+      construction phase of the new worship and ministry center. God is faithful to the promises He
+      makes to those who trust in Him, and He is faithful to the hands that sow. Every dollar given is an
+      act of faith in the work He is building.</p>
+
+      <div class="give-goal">
+        <div class="give-goal__figures">
+          <div class="give-goal__item give-goal__item--total">
+            <span class="give-goal__label">Goal</span>
+            <span class="give-goal__amount">$200,000</span>
+          </div>
+          <div class="give-goal__item">
+            <span class="give-goal__label">Raised so far</span>
+            <span class="give-goal__amount">$75,892</span>
+          </div>
+        </div>
+        <div class="give-goal__bar">
+          <span class="give-goal__fill" style="width: 37.9%%"></span>
+        </div>
+        <p class="give-goal__pct">37.9%% of our $200,000 goal &mdash; through December 2026</p>
+      </div>
+
+      <!-- TODO(logan): add Vision Fund giving link here once church provides the URL -->
+      <p><a class="btn" href="#">Give to the Vision Fund &mdash; link coming soon</a></p>
+
+      <h3>Chair Fund</h3>
+      <p>The Chair Fund is the fund we use for the needs the church sees first. Every dollar goes
+      directly to the work it is given for, and we are grateful to everyone who has helped us get
+      this far.</p>
+
+      <div class="give-goal">
+        <div class="give-goal__figures">
+          <div class="give-goal__item give-goal__item--total">
+            <span class="give-goal__label">Goal</span>
+            <span class="give-goal__amount">$21,964.87</span>
+          </div>
+          <div class="give-goal__item">
+            <span class="give-goal__label">Raised so far</span>
+            <span class="give-goal__amount">$11,649.14</span>
+          </div>
+        </div>
+        <div class="give-goal__bar">
+          <span class="give-goal__fill" style="width: 53.0%%"></span>
+        </div>
+        <p class="give-goal__pct">53%% of our $21,964.87 goal</p>
+      </div>
+
+      <!-- TODO(logan): add Chair Fund giving link here once church provides the URL -->
+      <p><a class="btn" href="#">Give to the Chair Fund &mdash; link coming soon</a></p>
+    </div>
+  </section>
+
   <section class="feature feature--reverse">
     <div class="wrap feature__wrap">
       <figure class="figure">
@@ -1119,6 +1183,69 @@ open(os.path.join(D, "contact.html"), "w", encoding="utf-8").write(render(
 print("contact.html written")
 
 
+# ----------------------------------------------------------------- announcements
+announcements_body = """  <section>
+    <div class="wrap wrap--narrow prose">
+      <h1>Announcements</h1>
+      <p class="lede">Here is what we want you to know this week &mdash; services, classes, events, and life in the congregation.</p>
+
+      <h2 class="spaced">Worship &amp; Revival</h2>
+      <p>Welcome to our &ldquo;All-in-One&rdquo; Family worship service this morning where we all come together in the
+      sanctuary for worship including children&rsquo;s church and workers.</p>
+
+      <p>The Revival Services start tonight through Wednesday! Bro. Earl Roberts will be preaching each night.
+      Tonight&rsquo;s services will start at 6 PM and Monday through Wednesday nights will start at 7:00 PM.
+      There will be singing too!</p>
+
+      <p>We are having a &ldquo;Potluck Fellowship&rdquo; following tonight&rsquo;s services in the Fellowship Hall. Please
+      bring your favorite dish or dessert. For Monday through Wednesday nights of the revival, we are
+      serving dinner starting at 6:00 each night:</p>
+      <ul>
+        <li>Monday: Chicken dinner</li>
+        <li>Tuesday: Hamburgers and hotdogs</li>
+        <li>Wednesday: Pizza</li>
+      </ul>
+
+      <h2 class="spaced">WAC</h2>
+      <p>The WAC will receive its &ldquo;Dollar Days for Missions&rdquo; offering today.</p>
+
+      <p>On Wednesday, October 21st at 7:00, the WAC is doing a one-night instructional &ldquo;how to make a
+      fall floral arrangement&rdquo; class as a fundraiser. Cost is <strong>$30 per person</strong>, which includes supplies
+      that will be needed. Sign-up sheet in the foyer. Please sign up by <strong>Oct. 14</strong>. Everyone will leave
+      with a beautiful fall arrangement!</p>
+
+      <h2 class="spaced">Vision Fund</h2>
+      <p>We are doing a &ldquo;Final Construction Phase Push&rdquo; for the Vision Fund through December 2026. Our
+      goal is to raise <strong>$200,000</strong> thru the end of the year. Please prayerfully consider what you can give
+      toward this goal.</p>
+
+      <h2 class="spaced">Family News</h2>
+      <p>Jestina (formerly Jestina Cantrell) and Erik Garcia are having a baby boy and are due in 4 weeks
+      on <strong>Oct. 17th</strong>! We aren&rsquo;t doing a shower but want to do a gift drop-off for them in the foyer. If
+      you would like to bless them with a gift or gift card, please bring your gifts by next Sunday,
+      <strong>October 4th</strong>. They are registered with Amazon. Thank you!</p>
+
+      <h2 class="spaced">Giving Online</h2>
+      <p>If you would like to pay your tithes online, please download the &ldquo;Church Center App&rdquo; or scan the
+      QR code for your convenience. Please see Sis. Myra if you have any questions or would like
+      additional information.</p>
+
+      <div class="callout callout--quiet">
+        <p><strong>Note:</strong> This page changes often. For the most current updates, check our Facebook page
+        at <a href="%(fb)s">%(fb)s</a>.</p>
+      </div>
+    </div>
+  </section>
+""" % dict(fb=FB)
+
+open(os.path.join(D, "announcements.html"), "w", encoding="utf-8").write(render(
+    "announcements.html",
+    "Announcements &mdash; East Side Free Will Baptist Church",
+    "This week at East Side Free Will Baptist Church: worship services, revival, WAC events, Vision Fund, and family news.",
+    announcements_body))
+print("announcements.html written")
+
+# ----------------------------------------------------------------- 404
 # ----------------------------------------------------------------- 404
 notfound = """<!DOCTYPE html>
 <html lang="en">
@@ -1168,7 +1295,7 @@ print("404.html written")
 
 SITEMAP_PAGES = [
     ("", "1.0"), ("about.html", "0.8"), ("beliefs.html", "0.8"),
-    ("ministries.html", "0.8"), ("calendar.html", "0.7"), ("sermons.html", "0.7"),
+    ("ministries.html", "0.8"), ("calendar.html", "0.7"), ("announcements.html", "0.7"), ("sermons.html", "0.7"),
     ("give.html", "0.6"), ("contact.html", "0.9"),
 ]
 

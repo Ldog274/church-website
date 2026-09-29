@@ -615,3 +615,35 @@ h2[id], h3[id] { scroll-margin-top: 1.5rem; }
   .site-nav ul { gap: 0.15rem 0.9rem; }
   .site-nav a { font-size: 0.875rem; padding-block: 0.3rem; }
 }
+.give-goal { margin: 2rem 0 0; }
+
+.give-goal__figures {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 0.35rem 1.5rem; margin: 1.25rem 0 0;
+}
+.give-goal__amount {
+  font-family: var(--serif); font-size: 1.75rem; font-weight: 700;
+  color: var(--navy); line-height: 1.1;
+}
+.give-goal__label {
+  display: block; font-family: var(--sans);
+  font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.give-goal__item { min-width: 7rem; }
+.give-goal__item--total .give-goal__amount { color: var(--ink-soft); }
+
+/* Progress bar. The width is a plain percentage in the markup, so the bar
+   is updated by editing one number rather than by scripting it. */
+.give-goal__bar {
+  position: relative; height: 0.625rem; margin-top: 1rem;
+  background: var(--rule); border-radius: 999px; overflow: hidden;
+}
+.give-goal__fill {
+  display: block; height: 100%;
+  background: linear-gradient(90deg, var(--gold-light), var(--gold));
+  border-radius: 999px;
+}
+.give-goal__pct {
+  margin-top: 0.5rem; font-size: 0.875rem; color: var(--ink-soft);
+}
