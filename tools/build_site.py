@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Generate the finished East Side FWB church site."""
-import os, re
+import os, re, datetime
 
-D = r"C:/Users/logan/AppData/Local/hermes/cache/scratch/church-site"
+D = r"C:/Users/logan/church-website"
 
 NAME   = "East Side Free Will Baptist Church"
 STREET = "613 E Sequoyah St"
@@ -631,12 +631,150 @@ print("ministries.html written")
 
 
 # ----------------------------------------------------------------- calendar
+# The church's own September-November 2026 calendar sheet, transcribed. Each
+# month is a list of (day, [(time, title), ...]) in the order the sheet lists
+# them. To update, edit this table and re-run the generator - never the HTML.
+# Times the sheet left blank are recorded as None and simply omit the time.
+CHURCH_CALENDAR = [
+    ("September 2026", [
+        (2,  [("7:00 PM", "Bro. Trenton Forever devotion at the Activities Center"),
+              ("7:00 PM", "WAC"),
+              ("7:00 PM", "Men&rsquo;s Bible Study"),
+              (None,    "Bro. Logan devotion"),
+              (None,    "Bro. A out of office")]),
+        (3,  [(None,    "Bro. A out of office")]),
+        (4,  [(None,    "Bro. A out of office"),
+              (None,    "East Side feeds the Needs Band (50)")]),
+        (5,  [("8:00 AM", "5K Color Run &mdash; &ldquo;Faith in Motion&rdquo; fundraiser"),
+              (None,    "Bro. A out of office")]),
+        (6,  [(None,    "Vision Fund Sunday")]),
+        (7,  [(None,    "Muldrow Schools &mdash; no school (Labor Day)")]),
+        (8,  [("10:30 AM", "WWBS"),
+              ("6:30 PM",  "BATTL")]),
+        (9,  [("10:30 AM", "Flanna Hills Nursing Home service"),
+              ("7:00 PM",  "Men&rsquo;s Bible Study")]),
+        (12, [("10:00 AM", "Semi-annual ARVA meeting at Mineral Springs FWB &mdash; speaker Lee Rogers")]),
+        (13, [("6:00 PM",  "PM worship with Bro. Logan"),
+              (None,      "Grandparents Day")]),
+        (15, [("10:30 AM", "WWBS"),
+              ("6:30 PM",  "BATTL")]),
+        (16, [("7:00 PM",  "WAC"),
+              ("7:00 PM",  "Men&rsquo;s Bible Study")]),
+        (20, [(None,      "&ldquo;Chair&rdquo; offering")]),
+        (22, [("10:30 AM", "WWBS"),
+              ("6:30 PM",  "BATTL")]),
+        (23, [("7:00 PM",  "Men&rsquo;s Bible Study")]),
+        (25, [(None,      "East Side feeds the band and cheer squads (75)")]),
+        (27, [(None,      "WAC &ldquo;Dollar Days for Missions&rdquo; offering"),
+              (None,      "Family &ldquo;All-in-One&rdquo; worship"),
+              ("6:00 PM",  "Revival with Bro. Earl Roberts")]),
+        (28, [("7:00 PM",  "Revival with Bro. Earl Roberts")]),
+        (29, [("10:30 AM", "WWBS"),
+              ("6:30 PM",  "BATTL"),
+              ("7:00 PM",  "Revival with Bro. Earl Roberts")]),
+        (30, [("7:00 PM",  "Revival with Bro. Earl Roberts"),
+              ("7:00 PM",  "Men&rsquo;s Bible Study")]),
+    ]),
+    ("October 2026", [
+        (1,  [("6:30&ndash;8:00 PM", "GriefShare in the Fellowship Hall")]),
+        (4,  [(None,      "Vision Fund Sunday")]),
+        (6,  [("10:00 AM", "WWBS"),
+              ("6:30 PM",  "BATTL")]),
+        (7,  [(None,      "Bro. Trenton devotion at youth services"),
+              ("7:00 PM",  "WAC"),
+              ("7:00 PM",  "Men&rsquo;s Bible Study")]),
+        (8,  [("6:30&ndash;8:00 PM", "GriefShare in the Fellowship Hall")]),
+        (11, [("6:00 PM",  "PM service")]),
+        (12, [(None,      "Ministers&rsquo; Retreat at Wewoka, Oklahoma (continues through the 14th)"),
+              (None,      "Columbus Day / Indigenous Peoples&rsquo; Day")]),
+        (13, [("10:00 AM", "WWBS"),
+              ("6:30 PM",  "BATTL")]),
+        (14, [(None,      "Ministers&rsquo; Retreat at Wewoka, Oklahoma"),
+              ("7:00 PM",  "Flanna Hills Nursing Home service"),
+              ("7:00 PM",  "Men&rsquo;s Bible Study")]),
+        (15, [("6:30&ndash;8:00 PM", "GriefShare in the Fellowship Hall"),
+              (None,      "Muldrow Schools &mdash; no school (professional development day)")]),
+        (16, [(None,      "Muldrow Schools &mdash; no school (fall break)")]),
+        (20, [("10:00 AM", "WWBS"),
+              ("6:30 PM",  "BATTL")]),
+        (21, [("7:00 PM",  "WAC"),
+              ("7:00 PM",  "Men&rsquo;s Bible Study")]),
+        (22, [("6:30&ndash;8:00 PM", "GriefShare in the Fellowship Hall")]),
+        (23, [(None,      "East Side feeds the band and cheer squads (75)")]),
+        (25, [(None,      "WAC &ldquo;Dollar Days for Missions&rdquo; offering"),
+              (None,      "Family &ldquo;All-in-One&rdquo; worship"),
+              (None,      "CAMO Sunday"),
+              (None,      "Fall Festival at Ryan Barn")]),
+        (27, [("10:00 AM", "WWBS"),
+              ("6:30 PM",  "BATTL")]),
+        (28, [("7:00 PM",  "Men&rsquo;s Bible Study")]),
+        (29, [("6:30&ndash;8:00 PM", "GriefShare in the Fellowship Hall")]),
+        (31, [(None,      "Halloween")]),
+    ]),
+    ("November 2026", [
+        (1,  [(None,      "Vision Fund Sunday")]),
+        (3,  [("10:00 AM", "WWBS"),
+              ("6:30 PM",  "BATTL")]),
+        (4,  [("7:00 PM",  "WAC"),
+              ("7:00 PM",  "Bro. Trenton devotion at youth services"),
+              ("7:00 PM",  "Men&rsquo;s Bible Study")]),
+        (5,  [("6:30&ndash;8:00 PM", "GriefShare in the Fellowship Hall")]),
+        (8,  [("6:00 PM",  "PM services")]),
+        (10, [("10:00 AM", "WWBS"),
+              ("6:30 PM",  "BATTL")]),
+        (11, [("7:00 PM",  "Men&rsquo;s Bible Study")]),
+        (12, [("6:30&ndash;8:00 PM", "GriefShare in the Fellowship Hall &mdash; extra date if needed")]),
+        (17, [("10:00 AM", "WWBS"),
+              ("6:30 PM",  "BATTL")]),
+        (18, [("7:00 PM",  "WAC"),
+              ("7:00 PM",  "Men&rsquo;s Bible Study")]),
+        (22, [(None,      "WAC &ldquo;Dollar Days for Missions&rdquo; offering"),
+              ("6:00 PM",  "Community Thanksgiving service")]),
+        (23, [(None,      "Muldrow Schools &mdash; no school (Thanksgiving week)")]),
+        (24, [("6:30 PM",  "BATTL"),
+              (None,      "Muldrow Schools &mdash; no school (Thanksgiving week)")]),
+        (25, [(None,      "No PM services"),
+              (None,      "Muldrow Schools &mdash; no school (Thanksgiving week)")]),
+        (26, [(None,      "Thanksgiving"),
+              (None,      "Muldrow Schools &mdash; no school (Thanksgiving week)")]),
+        (27, [(None,      "Muldrow Schools &mdash; no school (Thanksgiving week)")]),
+        (29, [(None,      "Family &ldquo;All-in-One&rdquo; worship")]),
+    ]),
+]
+
+def cal_month_html(month, year, entries):
+    """Render one month of the church calendar as a table."""
+    out = ['    <h3 class="cal-month">%s</h3>' % month,
+           '    <table class="cal-table">',
+           '      <caption class="visually-hidden">%s</caption>' % month,
+           '      <tbody>']
+    for day, items in entries:
+        name = datetime.date(year, MONTH_NUM[month.split()[0]], day).strftime("%A")
+        out.append('        <tr>')
+        out.append('          <th scope="row" class="cal-day">%s<span>%d</span></th>' % (name, day))
+        out.append('          <td class="cal-items">')
+        out.append('            <ul>')
+        for time, title in items:
+            if time:
+                out.append('              <li><span class="cal-time">%s</span>%s</li>' % (time, title))
+            else:
+                out.append('              <li>%s</li>' % title)
+        out.append('            </ul>')
+        out.append('          </td>')
+        out.append('        </tr>')
+    out += ['      </tbody>', '    </table>']
+    return "\n".join(out)
+
+
+MONTH_NUM = {"September": 9, "October": 10, "November": 11}
+cal_sections = "\n".join(
+    cal_month_html(m, 2026, e) for m, e in CHURCH_CALENDAR)
+
 calendar_body = """  <section>
     <div class="wrap">
       <h1>Calendar</h1>
-      <p class="prose lede">Services, youth, and upcoming events at East Side. This page is tied directly
-      to the church&rsquo;s Google Calendar, so anything added there appears here automatically &mdash;
-      nothing to update by hand.</p>
+      <p class="prose lede">What is on at East Side for the next three months &mdash; services, studies,
+      mission offerings, retreats, and the school-calendar dates families ask about most.</p>
 
       <h2 class="spaced">Every week at East Side</h2>
       <div class="callout">
@@ -646,42 +784,19 @@ calendar_body = """  <section>
         Activities Center, %(act)s</p>
       </div>
 
-      <!-- ===================================================================
-           GOOGLE CALENDAR EMBED
+      <h2 class="spaced">September, October, and November 2026</h2>
+%(cal)s
 
-           To switch this on:
-             1. In Google Calendar, hover the church calendar in the left sidebar.
-             2. Three-dot menu -> "Settings and sharing".
-             3. Under "Access permissions for events", tick "Make available to public".
-             4. Scroll down to "Integrate calendar" and copy the "Calendar ID"
-                (a Gmail address, or something ending @group.calendar.google.com).
-             5. Replace YOUR_CALENDAR_ID in the iframe below with it, then delete
-                the comment marks around the iframe and delete the callout beneath it.
-                &ctz=America%%2FChicago is correct for Muldrow - leave it alone.
-
-           The calendar has to be public or the embed will not render. Only events on
-           that calendar show up here, so keep private appointments on a separate
-           calendar.
-           =================================================================== -->
-
-      <div class="calendar-wrap">
-        <!-- <iframe class="embed calendar-embed" title="East Side Free Will Baptist Church calendar"
-             src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID&ctz=America%%2FChicago&mode=MONTH&showTitle=0&showPrint=0&showTabs=1&showCalendars=0"
-             frameborder="0" scrolling="no" loading="lazy"></iframe> -->
-        <div class="callout callout--quiet">
-          <p>Our church calendar is being connected to this page. In the meantime, the weekly pattern
-          above is unchanged, and any special events are announced on our
-          <a href="%(fb)s">Facebook page</a>.</p>
-        </div>
-      </div>
+      <p class="fine-print">A few entries on the church calendar carry no time listed; those show the
+      event only. Dates and times can shift &mdash; call the church at <a href="%(tel)s">%(teld)s</a>
+      if you are coming to something and want to be sure.</p>
 
       <h2 class="spaced">What you will find on the calendar</h2>
       <ul class="prose">
-        <li>Regular services and midweek gatherings</li>
+        <li>Regular services, studies, and ministry meetings</li>
         <li>Youth events at the Activities Center</li>
-        <li>Fifth Sunday singings, fellowships, and special services</li>
-        <li>Christmas events, including the Tour of Christmas</li>
-        <li>Building progress milestones for the new worship and ministry center</li>
+        <li>Mission offerings, revivals, and special services</li>
+        <li>School closures and holidays that change the normal week</li>
       </ul>
 
       <h2>Coming to something?</h2>
@@ -690,12 +805,12 @@ calendar_body = """  <section>
       will make sure you are expected.</p>
     </div>
   </section>
-""" % dict(act=ACT, fb=FB, tel=TEL, teld=TELD)
+""" % dict(act=ACT, tel=TEL, teld=TELD, cal=cal_sections)
 
 open(os.path.join(D, "calendar.html"), "w", encoding="utf-8").write(render(
     "calendar.html",
     "Calendar &mdash; East Side Free Will Baptist Church",
-    "Services, youth, and upcoming events at East Side Free Will Baptist Church, Muldrow, Oklahoma.",
+    "Services, studies, mission offerings, retreats, and school dates for the next three months at East Side Free Will Baptist Church, Muldrow, Oklahoma.",
     calendar_body))
 print("calendar.html written")
 

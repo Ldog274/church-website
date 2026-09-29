@@ -398,6 +398,78 @@ section[id] { scroll-margin-top: 5.5rem; }
 
 .fine-print { font-size: 0.8125rem; color: var(--ink-faint); margin-top: 0.6rem; }
 
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip: rect(0 0 0 0); clip-path: inset(50%); overflow: hidden; white-space: nowrap;
+}
+
+/* --- the church calendar table on calendar.html --------------------------- */
+
+.cal-month {
+  margin: 2.5rem 0 0.9rem;
+  font-size: 1.0625rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.cal-month:first-of-type { margin-top: 1.5rem; }
+
+.cal-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+.cal-table tr + tr { border-top: 1px solid var(--rule); }
+
+.cal-day {
+  width: 6.5rem;
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  vertical-align: top;
+  white-space: nowrap;
+}
+.cal-day span {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.cal-items { padding: 0.7rem 0.9rem; }
+.cal-items ul { list-style: none; margin: 0; padding: 0; }
+.cal-items li {
+  margin: 0;
+  line-height: 1.5;
+}
+.cal-items li + li { margin-top: 0.3rem; }
+
+.cal-time {
+  display: inline-block;
+  min-width: 4.6rem;
+  margin-right: 0.6rem;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+  color: var(--ink-faint);
+}
+
+@media (max-width: 30rem) {
+  .cal-day { width: 4.5rem; padding: 0.6rem 0.6rem; }
+  .cal-day span { font-size: 1.25rem; }
+  .cal-items { padding: 0.6rem; }
+  .cal-time { display: block; min-width: 0; margin-right: 0; }
+}
+
 /* small secondary line inside footer service times */
 .site-footer .fine { display: block; font-size: 0.8125rem; color: var(--ink-faint); margin-top: 0.1rem; }
 
