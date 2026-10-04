@@ -314,6 +314,7 @@ print("index.html written")
 # ----------------------------------------------------------------- about
 # Keep the draft in the source, but omit it from published HTML until verified.
 SHOW_HISTORY = False
+SHOW_WHAT_WE_ARE_ABOUT = False
 
 about_body = """  <section>
     <div class="wrap wrap--narrow prose">
@@ -398,6 +399,9 @@ about_body = """  <section>
 
 if not SHOW_HISTORY:
     about_body = re.sub(r'\s*<section class="history">.*?</section>', '', about_body, count=1, flags=re.S)
+
+if not SHOW_WHAT_WE_ARE_ABOUT:
+    about_body = re.sub(r'\s*<section class="feature feature--reverse">.*?</section>', '', about_body, count=1, flags=re.S)
 
 open(os.path.join(D, "about.html"), "w", encoding="utf-8").write(render(
     "about.html",
