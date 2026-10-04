@@ -28,7 +28,7 @@ CHURCH_SCHEMA = """<script type="application/ld+json">
   "name": "East Side Free Will Baptist Church",
   "alternateName": "East Side FWB Church",
   "url": "https://eastsidefwbc.org/",
-  "description": "A Free Will Baptist congregation in Muldrow, Oklahoma. Sunday school 9:30 AM, morning worship 10:30 AM with children's church, Wednesday evening service 7:30 PM.",
+  "description": "A Free Will Baptist congregation in Muldrow, Oklahoma. Sunday school 9:30 AM, morning worship 10:30 AM with children's church, Wednesday evening service 7:00 PM.",
   "image": "https://eastsidefwbc.org/assets/img/social-card.jpg",
   "logo": "https://eastsidefwbc.org/apple-touch-icon.png",
   "telephone": "+1-918-427-5116",
@@ -66,7 +66,7 @@ FOOTER = """<footer class="site-footer">
       <ul>
         <li>Sunday School &mdash; 9:30 AM</li>
         <li>Morning Worship &mdash; 10:30 AM<span class="fine">Children&rsquo;s church at the same hour</span></li>
-        <li>Wednesday &mdash; 7:30 PM<span class="fine">Youth meet at the Activities Center</span></li>
+        <li>Wednesday &mdash; 7:00 PM<span class="fine">Youth meet at the Activities Center</span></li>
       </ul>
     </div>
     <div>
@@ -168,7 +168,7 @@ TIMES_BLOCK = """  <section class="times-section" id="this-week">
         </div>
         <div class="time-card">
           <dt>Wednesday Evening</dt>
-          <dd>7:30 PM<span>Youth meet at the Activities Center</span></dd>
+          <dd>7:00 PM<span>Youth meet at the Activities Center</span></dd>
         </div>
       </dl>
     </div>
@@ -306,12 +306,15 @@ index_body = """  <section class="hero hero--full">
 open(os.path.join(D, "index.html"), "w", encoding="utf-8").write(render(
     "index.html",
     "East Side Free Will Baptist Church &mdash; Muldrow, Oklahoma",
-    "A Free Will Baptist church family in Muldrow, Oklahoma. Sunday school 9:30 AM, morning worship 10:30 AM, Wednesday evening 7:30 PM. All are welcome.",
+    "A Free Will Baptist church family in Muldrow, Oklahoma. Sunday school 9:30 AM, morning worship 10:30 AM, Wednesday evening 7:00 PM. All are welcome.",
     index_body, schema=CHURCH_SCHEMA))
 print("index.html written")
 
 
 # ----------------------------------------------------------------- about
+# Keep the draft in the source, but omit it from published HTML until verified.
+SHOW_HISTORY = False
+
 about_body = """  <section>
     <div class="wrap wrap--narrow prose">
       <h1>About Us</h1>
@@ -324,7 +327,7 @@ about_body = """  <section>
         <li><strong>Where we are</strong> &mdash; %(street)s, %(city)s.</li>
         <li><strong>Sunday morning</strong> &mdash; Sunday school for every age at <strong>9:30 AM</strong>, then morning worship at <strong>10:30 AM</strong>.</li>
         <li><strong>Children</strong> &mdash; children&rsquo;s church meets during the 10:30 AM worship hour, so parents can worship while the children are taught at their own level.</li>
-        <li><strong>Wednesday</strong> &mdash; the church gathers at <strong>7:30 PM</strong> for Bible study and prayer, and our youth meet at the same hour at the Activities Center, %(act)s.</li>
+        <li><strong>Wednesday</strong> &mdash; the church gathers at <strong>7:00 PM</strong> for Bible study and prayer, and our youth meet at the same hour at the Activities Center, %(act)s.</li>
       </ul>
       <p>If you have a question we have not answered here &mdash; about parking, about access, about
       anything at all &mdash; please call us at <a href="%(tel)s">%(teld)s</a>. We would far rather
@@ -392,6 +395,9 @@ about_body = """  <section>
     </div>
   </section>
 """ % dict(street=STREET, city=CITY, tel=TEL, teld=TELD, act=ACT, img=IMG)
+
+if not SHOW_HISTORY:
+    about_body = re.sub(r'\s*<section class="history">.*?</section>', '', about_body, count=1, flags=re.S)
 
 open(os.path.join(D, "about.html"), "w", encoding="utf-8").write(render(
     "about.html",
@@ -566,7 +572,7 @@ ministries_body = """  <section>
         <article class="card">
           <p class="meta">Wednesday</p>
           <h3>Youth Worship</h3>
-          <p>Our youth meet on <strong>Wednesday evening at 7:30 PM</strong> at the
+          <p>Our youth meet on <strong>Wednesday evening at 7:00 PM</strong> at the
           <strong>Activities Center, %(act)s</strong> &mdash; the same hour as the midweek service, so
           families can come and go together.</p>
         </article>
@@ -582,7 +588,7 @@ ministries_body = """  <section>
         <article class="card">
           <p class="meta">Wednesday</p>
           <h3>Midweek Service</h3>
-          <p>The church gathers on <strong>Wednesday at 7:30 PM</strong> for Bible study and prayer.</p>
+          <p>The church gathers on <strong>Wednesday at 7:00 PM</strong> for Bible study and prayer.</p>
         </article>
       </div>
 
@@ -834,7 +840,7 @@ calendar_body = """  <section>
       <div class="callout">
         <p><strong>Sunday</strong> &mdash; Sunday School 9:30 AM &middot; Morning Worship 10:30 AM
         (children&rsquo;s church at the same hour)<br>
-        <strong>Wednesday</strong> &mdash; Midweek service 7:30 PM &middot; Youth worship 7:30 PM at the
+        <strong>Wednesday</strong> &mdash; Midweek service 7:00 PM &middot; Youth worship 7:00 PM at the
         Activities Center, %(act)s</p>
       </div>
 

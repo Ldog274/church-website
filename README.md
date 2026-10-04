@@ -9,7 +9,7 @@ Every push to `main` updates the live website within about a minute. There is no
 no framework and no dependencies - just HTML and one CSS file.
 
 - `index.html` - home: welcome, service times, the map, and ways in
-- `about.html` - about us, our pastors, our history, planning a visit
+- `about.html` - about us, our pastors, planning a visit (history draft withheld until completed)
 - `beliefs.html` - the gospel in short, then what we teach and preach
 - `ministries.html` - children, students, adults, care ministries, community outreach
 - `calendar.html` - church calendar
