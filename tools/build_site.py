@@ -1213,46 +1213,46 @@ announcements_body = """  <section>
       <h1>Announcements</h1>
       <p class="lede">Here is what we want you to know this week &mdash; services, classes, events, and life in the congregation.</p>
 
-      <h2 class="spaced">Worship &amp; Revival</h2>
-      <p>Welcome to our &ldquo;All-in-One&rdquo; Family worship service this morning where we all come together in the
-      sanctuary for worship including children&rsquo;s church and workers.</p>
+      <p class="meta">Updated October 4, 2026</p>
 
-      <p>The Revival Services start tonight through Wednesday! Bro. Earl Roberts will be preaching each night.
-      Tonight&rsquo;s services will start at 6 PM and Monday through Wednesday nights will start at 7:00 PM.
-      There will be singing too!</p>
+      <h2 class="spaced">Praise in the Park</h2>
+      <p>Straight Street Ministries will host &ldquo;Praise in the Park&rdquo; on
+      <strong>Saturday, October 10, from 1:00&ndash;4:00 PM</strong>. Enjoy good music, fellowship,
+      and free food. See the flyer in the foyer.</p>
 
-      <p>We are having a &ldquo;Potluck Fellowship&rdquo; following tonight&rsquo;s services in the Fellowship Hall. Please
-      bring your favorite dish or dessert. For Monday through Wednesday nights of the revival, we are
-      serving dinner starting at 6:00 each night:</p>
-      <ul>
-        <li>Monday: Chicken dinner</li>
-        <li>Tuesday: Hamburgers and hotdogs</li>
-        <li>Wednesday: Pizza</li>
-      </ul>
+      <h2 class="spaced">Sunday Evening Service</h2>
+      <p>We will have an evening service at <strong>6:00 PM on Sunday, October 11</strong>.</p>
 
-      <h2 class="spaced">WAC</h2>
-      <p>The WAC will receive its &ldquo;Dollar Days for Missions&rdquo; offering today.</p>
-
-      <p>On Wednesday, October 21st at 7:00, the WAC is doing a one-night instructional &ldquo;how to make a
-      fall floral arrangement&rdquo; class as a fundraiser. Cost is <strong>$30 per person</strong>, which includes supplies
-      that will be needed. Sign-up sheet in the foyer. Please sign up by <strong>Oct. 14</strong>. Everyone will leave
-      with a beautiful fall arrangement!</p>
-
-      <h2 class="spaced">Vision Fund</h2>
-      <p>We are doing a &ldquo;Final Construction Phase Push&rdquo; for the Vision Fund through December 2026. Our
-      goal is to raise <strong>$200,000</strong> thru the end of the year. Please prayerfully consider what you can give
-      toward this goal.</p>
+      <h2 class="spaced">WAC Floral Arrangement Class</h2>
+      <p>On <strong>Wednesday, October 21, at 7:00 PM</strong>, the WAC will hold a one-night
+      instructional class on making a fall floral arrangement as a fundraiser. The cost is
+      <strong>$30 per person</strong>, including supplies. The sign-up sheet is in the foyer;
+      please sign up by <strong>October 14</strong>. Everyone will leave with a beautiful fall arrangement!</p>
 
       <h2 class="spaced">Family News</h2>
-      <p>Jestina (formerly Jestina Cantrell) and Erik Garcia are having a baby boy and are due in 4 weeks
-      on <strong>Oct. 17th</strong>! We aren&rsquo;t doing a shower but want to do a gift drop-off for them in the foyer. If
-      you would like to bless them with a gift or gift card, please bring your gifts by next Sunday,
-      <strong>October 4th</strong>. They are registered with Amazon. Thank you!</p>
+      <p>Jestina (formerly Jestina Cantrell) and Erik Garcia are expecting a baby boy, due
+      <strong>October 17</strong>. We are collecting gifts for them in the foyer. If you would like
+      to bless them with a gift or gift card, please leave it in the basket in the foyer. Thank you!</p>
+
+      <h2 class="spaced">Vision Fund</h2>
+      <p>Our &ldquo;Final Construction Phase Push&rdquo; for the Vision Fund continues through
+      <strong>December 2026</strong>. Our goal is to raise <strong>$200,000</strong> through the end
+      of the year. Please prayerfully consider what you can give toward this goal.</p>
+
+      <h2 class="spaced">Fall Festival &amp; Camo Sunday</h2>
+      <p>Our Annual Fall Festival will be held on <strong>Sunday, October 25, at 5:00 PM</strong>
+      at <strong>Archer &amp; Tracy Ryan&rsquo;s barn</strong>. There will be live music and singing,
+      delicious food, and fellowship. Bring your lawn chair and your favorite chili, soup, or dessert.</p>
+      <p>October 25 is also <strong>Camo Sunday</strong>. Wear your camo that day!</p>
+
+      <h2 class="spaced">Pastor Appreciation Month</h2>
+      <p>October is Pastor Appreciation Month. We are so very blessed to have Bro. Anthony as our
+      senior pastor and Bro. Logan as our associate pastor.</p>
 
       <h2 class="spaced">Giving Online</h2>
-      <p>If you would like to pay your tithes online, please download the &ldquo;Church Center App&rdquo; or scan the
-      QR code for your convenience. Please see Sis. Myra if you have any questions or would like
-      additional information.</p>
+      <p>To pay your tithes online, download the <strong>Church Center App</strong>. Please see
+      Sis. Myra if you have any questions or would like additional information.
+      <a href="give.html">Visit our giving page</a> for the current fund links.</p>
 
       <div class="callout callout--quiet">
         <p><strong>Note:</strong> This page changes often. For the most current updates, check our Facebook page
@@ -1265,7 +1265,7 @@ announcements_body = """  <section>
 open(os.path.join(D, "announcements.html"), "w", encoding="utf-8").write(render(
     "announcements.html",
     "Announcements &mdash; East Side Free Will Baptist Church",
-    "This week at East Side Free Will Baptist Church: worship services, revival, WAC events, Vision Fund, and family news.",
+    "Current announcements at East Side Free Will Baptist Church: Praise in the Park, Sunday evening service, WAC class, Fall Festival, Vision Fund, and church family news.",
     announcements_body))
 print("announcements.html written")
 
