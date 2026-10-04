@@ -303,6 +303,11 @@ index_body = """  <section class="hero hero--full">
   </section>
 """ % dict(img=IMG, times=TIMES_BLOCK, street=STREET, city=CITY, mapdir=MAPDIR, mapemb=MAPEMB)
 
+# Preserve the home-page feature draft until Logan has edited and approved it.
+SHOW_COMMUNITY_PRAYER = False
+if not SHOW_COMMUNITY_PRAYER:
+    index_body = re.sub(r'\s*<section class="feature">.*?</section>', '', index_body, count=1, flags=re.S)
+
 open(os.path.join(D, "index.html"), "w", encoding="utf-8").write(render(
     "index.html",
     "East Side Free Will Baptist Church &mdash; Muldrow, Oklahoma",
