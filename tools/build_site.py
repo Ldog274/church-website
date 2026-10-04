@@ -643,6 +643,11 @@ ministries_body = """  <section>
   </section>
 """ % dict(act=ACT, tel=TEL, teld=TELD, img=IMG)
 
+# Keep this draft unpublished until Logan approves its revised copy.
+SHOW_SERVING_NEIGHBORS = False
+if not SHOW_SERVING_NEIGHBORS:
+    ministries_body = re.sub(r'\s*<section class="feature">.*?</section>', '', ministries_body, count=1, flags=re.S)
+
 open(os.path.join(D, "ministries.html"), "w", encoding="utf-8").write(render(
     "ministries.html",
     "Ministries &mdash; East Side Free Will Baptist Church",
