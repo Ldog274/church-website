@@ -1194,10 +1194,15 @@ contact_body = """  <section>
 """ % dict(name=NAME, street=STREET, city=CITY, tel=TEL, teld=TELD, fb=FB, email=EMAIL,
            mapdir=MAPDIR, mapemb=MAPEMB)
 
+# Preserve the Pastoral Care draft without publishing its card.
+SHOW_PASTORAL_CARE = False
+if not SHOW_PASTORAL_CARE:
+    contact_body = re.sub(r'\s*<article class="card">\s*<h3>Pastoral Care</h3>.*?</article>', '', contact_body, count=1, flags=re.S)
+
 open(os.path.join(D, "contact.html"), "w", encoding="utf-8").write(render(
     "contact.html",
     "Contact &mdash; East Side Free Will Baptist Church",
-    "Address, phone, email, directions, a message form, and pastoral care contact for East Side Free Will Baptist Church in Muldrow, Oklahoma.",
+    "Address, phone, email, directions, and a message form for East Side Free Will Baptist Church in Muldrow, Oklahoma.",
     contact_body))
 print("contact.html written")
 
