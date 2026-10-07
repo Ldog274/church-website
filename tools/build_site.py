@@ -47,19 +47,26 @@ CHURCH_SCHEMA = """<script type="application/ld+json">
 </script>"""
 
 NAV = [("index.html", "Home"), ("about.html", "About"), ("beliefs.html", "What We Believe"),
-       ("ministries.html", "Ministries"), ("calendar.html", "Calendar"), ("announcements.html", "Announcements"), ("sermons.html", "Sermons"),
+       ("ministries.html", "Ministries"), ("calendar.html", "Calendar"), ("announcements.html", "Announcements"),
+       ("study-material.html", "Study Material"),
        ("give.html", "Give"), ("contact.html", "Contact")]
 
+# Study Material is a section, not a single page: its subpages keep the section
+# marked as the current one in the nav, so the menu still shows you where you are.
+STUDY_PAGES = ("study-material.html", "sermons.html", "devotions.html")
 
-def nav(page):
+
+def nav(page, base=""):
+    if page in STUDY_PAGES or page.startswith("devotions/"):
+        page = "study-material.html"
     rows = []
     for href, label in NAV:
         cur = ' aria-current="page"' if href == page else ''
-        rows.append('        <li><a href="%s"%s>%s</a></li>' % (href, cur, label))
+        rows.append('        <li><a href="%s%s"%s>%s</a></li>' % (base, href, cur, label))
     return "\n".join(rows)
 
 
-FOOTER = """<footer class="site-footer">
+FOOTER_TMPL = """<footer class="site-footer">
   <div class="wrap">
     <div>
       <h3>Service Times</h3>
@@ -76,16 +83,17 @@ FOOTER = """<footer class="site-footer">
         <li>%(city)s</li>
         <li><a href="%(tel)s">%(teld)s</a></li>
         <li><a href="mailto:%(email)s">%(email)s</a></li>
-        <li><a href="contact.html">Directions &amp; contact</a></li>
+        <li><a href="%(base)scontact.html">Directions &amp; contact</a></li>
       </ul>
     </div>
     <div>
       <h3>Connect</h3>
       <ul>
         <li><a href="%(fb)s">Facebook</a></li>
-        <li><a href="calendar.html">Calendar</a></li>
-        <li><a href="sermons.html">Sermons</a></li>
-        <li><a href="give.html">Give</a></li>
+        <li><a href="%(base)scalendar.html">Calendar</a></li>
+        <li><a href="%(base)sstudy-material.html">Study Material</a></li>
+        <li><a href="%(base)sdevotions.html">Devotions</a></li>
+        <li><a href="%(base)sgive.html">Give</a></li>
       </ul>
     </div>
     <p class="legal">&copy; <span id="yr">2026</span> %(name)s</p>
@@ -94,10 +102,15 @@ FOOTER = """<footer class="site-footer">
 
 <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 </body>
-</html>""" % dict(street=STREET, city=CITY, tel=TEL, teld=TELD, fb=FB, name=NAME, email=EMAIL)
+</html>"""
 
 
-def render(page, title, desc, body, schema=""):
+def footer(base=""):
+    return FOOTER_TMPL % dict(street=STREET, city=CITY, tel=TEL, teld=TELD, fb=FB,
+                              name=NAME, email=EMAIL, base=base)
+
+
+def render(page, title, desc, body, schema="", base=""):
     url = "https://eastsidefwbc.org/" + ("" if page == "index.html" else page)
     return """<!DOCTYPE html>
 <html lang="en">
@@ -127,7 +140,7 @@ def render(page, title, desc, body, schema=""):
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="%(base)scss/styles.css">
 %(schema)s
 </head>
 <body>
@@ -135,7 +148,7 @@ def render(page, title, desc, body, schema=""):
 
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="index.html">East Side <small>Free Will Baptist Church</small></a>
+    <a class="brand" href="%(base)sindex.html">East Side <small>Free Will Baptist Church</small></a>
     <nav class="site-nav" aria-label="Main">
       <ul>
 %(nav)s
@@ -150,8 +163,8 @@ def render(page, title, desc, body, schema=""):
 </main>
 
 %(footer)s
-""" % dict(title=title, desc=desc, url=url, nav=nav(page), body=body, footer=FOOTER,
-         ogimg=OG_IMG, schema=schema)
+""" % dict(title=title, desc=desc, url=url, nav=nav(page, base), body=body, footer=footer(base),
+         ogimg=OG_IMG, schema=schema, base=base)
 
 
 TIMES_BLOCK = """  <section class="times-section" id="this-week">
@@ -248,10 +261,11 @@ index_body = """  <section class="hero hero--full">
           <p><a href="calendar.html">View the calendar &rarr;</a></p>
         </article>
         <article class="card">
-          <p class="meta">Listen</p>
-          <h3>Sermons &amp; livestream</h3>
-          <p>Missed a Sunday, or want to hear a message again? Services are streamed on our Facebook page.</p>
-          <p><a href="sermons.html">Watch a service &rarr;</a></p>
+          <p class="meta">Study</p>
+          <h3>Sermons &amp; devotions</h3>
+          <p>Missed a Sunday, or want something to read through the week? Our messages and our
+          devotional writings live together under Study Material.</p>
+          <p><a href="study-material.html">Read and watch &rarr;</a></p>
         </article>
         <article class="card">
           <p class="meta">Curious?</p>
@@ -889,9 +903,61 @@ open(os.path.join(D, "calendar.html"), "w", encoding="utf-8").write(render(
 print("calendar.html written")
 
 
+# ------------------------------------------------------------- study material
+# "Study Material" is the shelf. Sermons and devotions are what sits on it, each
+# with a page of its own, so the section can grow without the menu growing with it.
+study_body = """  <section>
+    <div class="wrap">
+      <h1>Study Material</h1>
+      <p class="prose lede">Two things live here: the messages preached from this pulpit, and
+      devotional writing to read through the week. Both are meant to be sat with rather than
+      skimmed.</p>
+
+      <div class="grid grid--loose">
+        <article class="card card--study">
+          <p class="meta">To watch</p>
+          <h2>Sermons</h2>
+          <p>Our Sunday morning services are streamed live and kept on our Facebook page, so you can
+          watch a service you missed or hear a message a second time.</p>
+          <p><a class="btn" href="sermons.html">Go to the sermons</a></p>
+        </article>
+        <article class="card card--study">
+          <p class="meta">To read</p>
+          <h2>Devotions</h2>
+          <p>Short devotional writings on the Scriptures &mdash; a passage opened up, and a thought
+          to carry into the week. New ones are added as they are written.</p>
+          <p><a class="btn" href="devotions.html">Go to the devotions</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <img src="assets/img/stained-glass.jpg" srcset="assets/img/stained-glass-640.jpg 640w, assets/img/stained-glass.jpg 1024w" sizes="100vw" alt="" aria-hidden="true">
+    <div class="wrap wrap--narrow">
+      <blockquote class="band__quote">
+        All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness.
+        <cite>&mdash; 2 Timothy 3:16</cite>
+      </blockquote>
+    </div>
+  </section>
+"""
+
+open(os.path.join(D, "study-material.html"), "w", encoding="utf-8").write(render(
+    "study-material.html",
+    "Study Material &mdash; East Side Free Will Baptist Church",
+    "Sermons to watch and devotions to read from East Side Free Will Baptist Church, Muldrow, Oklahoma.",
+    study_body))
+print("study-material.html written")
+
+
 # ----------------------------------------------------------------- sermons
 sermons_body = """  <section>
     <div class="wrap">
+      <nav class="subnav" aria-label="Study Material">
+        <p><a href="study-material.html">Study Material</a> <span aria-hidden="true">&rsaquo;</span> Sermons</p>
+      </nav>
+
       <h1>Sermons</h1>
       <p class="prose lede">Every Sunday morning service is streamed live, and every message is kept on
       our Facebook page afterwards. If you missed a Sunday, or want to hear something again, it is
@@ -923,6 +989,9 @@ sermons_body = """  <section>
       speaker, and the Scripture passage, so that a series through a book of the Bible can be followed
       in order. It will appear below as it is filled in.</p>
 
+      <p class="prose">As messages are made available to us, they will also be posted here to watch
+      without leaving the site, so that this page becomes a place you can come back to.</p>
+
       <!-- ===================================================================
            SERMON ARCHIVE
 
@@ -930,10 +999,15 @@ sermons_body = """  <section>
            Keep the newest at the top. A plain <table> also works if you prefer,
            but the list below stays readable on a phone.
 
+           Once a message has a video of its own (YouTube or Facebook), give it an
+           <a href="...">Watch</a> link here, or replace the link with an embed:
+
            <li>
              <strong>Title of the message</strong>
              <span>Preached 4 January 2026 &middot; Pastor Anthony Williams &middot; John 3:16&ndash;21</span>
-             <a href="FACEBOOK_VIDEO_URL">Watch</a>
+             <div class="video-embed">
+               <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID" title="Title of the message" loading="lazy" allowfullscreen></iframe>
+             </div>
            </li>
 
            =================================================================== -->
@@ -956,6 +1030,360 @@ open(os.path.join(D, "sermons.html"), "w", encoding="utf-8").write(render(
     "Listen to recent sermons and watch the Sunday livestream from East Side Free Will Baptist Church, Muldrow, Oklahoma.",
     sermons_body))
 print("sermons.html written")
+
+
+# ----------------------------------------------------------------- devotions
+# The devotion blog: one page per devotion, generated from the list below.
+#
+# TO ADD A DEVOTION: copy one whole { ... } entry and fill in the fields. Order
+# does not matter - pages are sorted by date, newest first. The Devotions index,
+# each page and the sitemap are all rebuilt from this list.
+#
+#   slug       file name, no spaces:  devotions/<slug>.html
+#   title      the devotion's title
+#   date       ISO date, "2026-10-07" - used for ordering and the sitemap
+#   label      how the date reads, "October 7, 2026"
+#   author     the byline
+#   scripture  the passage line shown under the title
+#   summary    one or two sentences for the Devotions index
+#   refs       the passages used, listed at the foot of the page
+#   image      optional (file in assets/img, alt text)
+#   video      optional YouTube video id, e.g. "aBcDeFgHiJk". Leave it out until
+#              a devotion has been recorded and uploaded; the embed then appears
+#              at the top of the article.
+#   body       the article itself, as HTML
+
+DEVOTIONS = [
+    {
+        "slug": "why-do-we-study-the-scriptures",
+        "title": "Why Do We Study the Scriptures?",
+        "date": "2026-10-07",
+        "label": "October 7, 2026",
+        "author": "Bro. Logan Williams",
+        "scripture": "2 Timothy 3:14&ndash;17",
+        "summary": "Before we begin reading together, it is worth asking why. Three reasons God gives us His Word: that many might be saved, that the saved might be made like His Son, and that He might be glorified in us.",
+        "refs": [
+            "2 Timothy 3:15, 16, 17", "2 Peter 1:21", "John 20:31", "Romans 10:17",
+            "1 Peter 1:23", "1 Thessalonians 2:13", "Romans 8:29", "2 Corinthians 3:18",
+            "John 17:17", "Psalm 119:11", "Psalm 119:18", "Hebrews 4:12",
+            "James 1:22&ndash;24", "John 17:1, 5", "John 15:8", "Philippians 1:11",
+            "2 Thessalonians 1:12", "1 Corinthians 10:31", "Acts 17:11",
+        ],
+        "image": ("open-bible.jpg", "An open Bible resting outdoors."),
+        # "video": "YOUTUBE_VIDEO_ID",   # uncomment once the devotion is recorded
+        "body": """<p class="lede">Why do we do it? Why will we be spending time together here, week by
+      week, in the Scriptures? It is a fair question to ask at the start of anything new, and it
+      deserves an honest answer.</p>
+
+      <p>I will tell you plainly that I do not open my Bible because I am, by nature, a disciplined
+      man. Left to myself I can find a dozen easier things to do with an evening. I open it because I
+      have become convinced that the Bible is not a book like other books, and that God has said
+      quite specifically what He intends it to do. So before we talk about how to study, let us begin
+      where the Bible begins: with what God says His Word is for.</p>
+
+      <p>There are three reasons, and they build on one another.</p>
+
+      <h2>1. God gave us His Word so that many might be saved</h2>
+
+      <p>Start with God&rsquo;s intention in giving it at all. Paul, writing near the end of his life
+      to a young man he had trained in the faith, put it this way:</p>
+
+      <blockquote>
+        And that from a child thou hast known the holy scriptures, which are able to make thee wise
+        unto salvation through faith which is in Christ Jesus.
+        <cite>&mdash; 2 Timothy 3:15</cite>
+      </blockquote>
+
+      <p>Note the purpose. The Scriptures are <em>able to make a person wise unto salvation</em>. God
+      did not give us a book to satisfy our curiosity, or to sharpen our arguing, or to make us look
+      thoughtful on a Sunday. He gave us a book that saves &mdash; and He gave it that way on
+      purpose, so that many would be saved and not a select few.</p>
+
+      <p>That is why He did not leave the writing of it to men&rsquo;s own devices:</p>
+
+      <blockquote>
+        All scripture is given by inspiration of God, and is profitable for doctrine, for reproof,
+        for correction, for instruction in righteousness.
+        <cite>&mdash; 2 Timothy 3:16</cite>
+      </blockquote>
+
+      <blockquote>
+        For the prophecy came not in old time by the will of man: but holy men of God spake as they
+        were moved by the Holy Ghost.
+        <cite>&mdash; 2 Peter 1:21</cite>
+      </blockquote>
+
+      <p>Moses and David, Isaiah and Jeremiah, Matthew and John, Peter and Paul &mdash; real men, in
+      real places, writing in their own voices out of their own lives. And behind every one of them,
+      the Spirit of God, carrying them along so that what they wrote was exactly what God meant to
+      say. That is what <em>inspired</em> means: God-breathed. When we open the Bible, then, we are
+      not reading men&rsquo;s opinions about God. We are listening to God.</p>
+
+      <p>John tells us why he wrote his Gospel down at all:</p>
+
+      <blockquote>
+        But these are written, that ye might believe that Jesus is the Christ, the Son of God; and
+        that believing ye might have life through his name.
+        <cite>&mdash; John 20:31</cite>
+      </blockquote>
+
+      <p>And Paul tells us how that believing comes about:</p>
+
+      <blockquote>
+        So then faith cometh by hearing, and hearing by the word of God.
+        <cite>&mdash; Romans 10:17</cite>
+      </blockquote>
+
+      <p>Peter says we are born again &ldquo;by the word of God, which liveth and abideth for
+      ever&rdquo; (1 Peter 1:23). Paul thanked God that the Thessalonians received what he preached
+      &ldquo;not as the word of men, but as it is in truth, the word of God, which effectually
+      worketh also in you that believe&rdquo; (1 Thessalonians 2:13). <em>It effectually worketh.</em>
+      The Word does something. It does not merely inform; it acts.</p>
+
+      <p>That has a consequence for us as a church, and it is not a small one. If God saves people
+      through His Word, then a church full of people who know their Bibles is a church full of people
+      through whom God can work. The gospel you carry into a hospital room, into a nursing home, into
+      a hard conversation at a kitchen table, is the same gospel that turned you around. Learning the
+      Scriptures is not a private hobby for the unusually studious. It is how we come to have
+      something worth giving away.</p>
+
+      <h2>2. God desires that those who are saved become more like His Son</h2>
+
+      <p>But salvation is not the end of God&rsquo;s purpose for us &mdash; it is the beginning. Paul
+      says in Romans:</p>
+
+      <blockquote>
+        For whom he did foreknow, he also did predestinate to be conformed to the image of his Son,
+        that he might be the firstborn among many brethren.
+        <cite>&mdash; Romans 8:29</cite>
+      </blockquote>
+
+      <p><em>Conformed to the image of his Son.</em> That is the shape God intends your life and mine
+      to take. Not merely forgiven and left as we were, but remade &mdash; until what we love, and
+      how we spend our money, and how we speak to our families, and how we treat the person who can
+      do nothing for us in return, begin to look like Jesus.</p>
+
+      <p>So how does that happen? Paul answers that too:</p>
+
+      <blockquote>
+        But we all, with open face beholding as in a glass the glory of the Lord, are changed into
+        the same image from glory to glory, even as by the Spirit of the Lord.
+        <cite>&mdash; 2 Corinthians 3:18</cite>
+      </blockquote>
+
+      <p>Beholding, and changed. That is the order, and it never reverses. We do not become like
+      Christ by gritting our teeth; we look at Him, and the Spirit does the changing. And where do we
+      look at Him? In the Word. The Bible is the glass in which we see the glory of the Lord, and the
+      one who keeps looking comes away different.</p>
+
+      <p>This is why Jesus prayed for His own, &ldquo;Sanctify them through thy truth: thy word is
+      truth&rdquo; (John 17:17). And it is why the psalmist wrote, &ldquo;Thy word have I hid in mine
+      heart, that I might not sin against thee&rdquo; (Psalm 119:11) &mdash; not on the shelf, not
+      only in a notebook, but in the heart, where it can do its work on an ordinary Tuesday
+      afternoon.</p>
+
+      <p>The Bible is honest about how much this can cost. It says of itself:</p>
+
+      <blockquote>
+        For the word of God is quick, and powerful, and sharper than any twoedged sword, piercing
+        even to the dividing asunder of soul and spirit, and of the joints and marrow, and is a
+        discerner of the thoughts and intents of the heart.
+        <cite>&mdash; Hebrews 4:12</cite>
+      </blockquote>
+
+      <p>Which means our study will sometimes be uncomfortable. Scripture does not flatter us. Of the
+      four things Paul says the Word is profitable for &mdash; doctrine, reproof, correction,
+      instruction in righteousness &mdash; two of them are things we would rather not be told. But he
+      gives the reason for all of it: &ldquo;That the man of God may be perfect, throughly furnished
+      unto all good works&rdquo; (2 Timothy 3:17). God corrects what He loves.</p>
+
+      <p>James warns us against a study that never reaches our hands:</p>
+
+      <blockquote>
+        But be ye doers of the word, and not hearers only, deceiving your own selves. For if any be a
+        hearer of the word, and not a doer, he is like unto a man beholding his natural face in a
+        glass: For he beholdeth himself, and goeth his way, and straightway forgetteth what manner of
+        man he was.
+        <cite>&mdash; James 1:22&ndash;24</cite>
+      </blockquote>
+
+      <p>So we do not read in order to collect information. We read in order to be made over &mdash;
+      which means reading with a willingness to be told to change.</p>
+
+      <h2>3. God seeks to be glorified, with His Son, through us</h2>
+
+      <p>There is a third reason, and it takes us outside ourselves altogether. On the night He was
+      betrayed, Jesus prayed:</p>
+
+      <blockquote>
+        Father, the hour is come; glorify thy Son, that thy Son also may glorify thee &hellip; And
+        now, O Father, glorify thou me with thine own self with the glory which I had with thee
+        before the world was.
+        <cite>&mdash; John 17:1, 5</cite>
+      </blockquote>
+
+      <p>Father and Son, giving glory to one another from before the world was made. And by grace,
+      that glory is meant to move through us. Jesus said, &ldquo;Herein is my Father glorified, that
+      ye bear much fruit&rdquo; (John 15:8). Paul prayed that the Philippians would be
+      &ldquo;filled with the fruits of righteousness, which are by Jesus Christ, unto the glory and
+      praise of God&rdquo; (Philippians 1:11), and that &ldquo;the name of our Lord Jesus Christ may
+      be glorified in you, and ye in him&rdquo; (2 Thessalonians 1:12).</p>
+
+      <p>The end of all our studying, then, is not a well-informed congregation. It is a
+      God-glorifying one &mdash; a people in whom the worth of Christ is visible in the ordinary
+      business of a week: in patience with a difficult child, in honesty in a day&rsquo;s work, in
+      the way a long illness is carried, in kindness to someone who will never be able to repay it.
+      &ldquo;Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of
+      God&rdquo; (1 Corinthians 10:31).</p>
+
+      <p>Put the three together and you have the answer to our opening question. God gave us His Word
+      so that many might be saved. He gave it so that the saved might be made like His Son. And He
+      gave it so that He and His Son might be glorified in us. Bible study is not an extra for the
+      especially serious. It is where the Christian life is fed.</p>
+
+      <h2>How, then, should we read?</h2>
+
+      <p>A few plain things &mdash; not rules, but habits.</p>
+
+      <div class="callout">
+        <p><strong>Read a passage, not a fragment.</strong> A verse lifted out of its chapter can be
+        made to say almost anything. Give yourself at least a paragraph, and ask what the writer is
+        doing with it.</p>
+        <p><strong>Ask two questions.</strong> What does this show me about God, and about Christ?
+        And what does it ask of me? Answer those two and you have not wasted the time.</p>
+        <p><strong>Pray before you begin.</strong> David&rsquo;s prayer is a good one to make your
+        own: &ldquo;Open thou mine eyes, that I may behold wondrous things out of thy law&rdquo;
+        (Psalm 119:18).</p>
+        <p><strong>Small and steady beats long and rare.</strong> Fifteen minutes most days will do
+        more in a year than a three-hour session in January.</p>
+        <p><strong>Do not do it alone.</strong> Wednesday evening at 7:00 and Sunday school at 9:30
+        are where we read together and ask one another what we are finding.</p>
+      </div>
+
+      <p>Scripture holds up the Bereans as an example for exactly this: &ldquo;they received the word
+      with all readiness of mind, and searched the scriptures daily, whether those things were
+      so&rdquo; (Acts 17:11). Ready to hear, and willing to check. That is the posture I hope we will
+      keep here.</p>
+
+      <p>So that is where I hope our time together in these devotions will go. Not a place to come
+      and be impressive, and not a place to be lectured at &mdash; a place to open the Word, look at
+      it carefully, and let it do what God said it would do. I am glad to have you reading along, and
+      I am looking forward to it.</p>
+
+      <p>May the Lord give us ears to hear.</p>""",
+    },
+]
+
+DEV = sorted(DEVOTIONS, key=lambda d: d["date"], reverse=True)
+
+DEVOTIONS_DIR = os.path.join(D, "devotions")
+os.makedirs(DEVOTIONS_DIR, exist_ok=True)
+
+
+def devotion_items():
+    rows = []
+    for d in DEV:
+        href = "devotions/%s.html" % d["slug"]
+        rows.append("""        <li class="devotion-item">
+          <p class="devotion-meta">%(label)s &middot; %(author)s</p>
+          <h3><a href="%(href)s">%(title)s</a></h3>
+          <p class="devotion-scripture">%(scripture)s</p>
+          <p>%(summary)s</p>
+          <p><a href="%(href)s">Read the devotion &rarr;</a></p>
+        </li>""" % dict(label=d["label"], author=d["author"], href=href,
+                        title=d["title"], scripture=d["scripture"], summary=d["summary"]))
+    return "\n".join(rows)
+
+
+devotions_body = """  <section>
+    <div class="wrap">
+      <nav class="subnav" aria-label="Study Material">
+        <p><a href="study-material.html">Study Material</a> <span aria-hidden="true">&rsaquo;</span> Devotions</p>
+      </nav>
+
+      <h1>Devotions</h1>
+      <p class="prose lede">Devotional writing from East Side &mdash; a passage of Scripture opened
+      up, and a thought to carry into the week. These are written to be read slowly, and read again.</p>
+
+      <h2 class="spaced">All devotions</h2>
+      <ul class="devotion-list">
+%(items)s
+      </ul>
+
+      <div class="callout callout--quiet">
+        <p>New devotions are added here as they are written, and each one is shared on our
+        <a href="%(fb)s">Facebook page</a> when it goes up.</p>
+      </div>
+    </div>
+  </section>
+""" % dict(items=devotion_items(), fb=FB)
+
+open(os.path.join(D, "devotions.html"), "w", encoding="utf-8").write(render(
+    "devotions.html",
+    "Devotions &mdash; East Side Free Will Baptist Church",
+    "Devotional writings from East Side Free Will Baptist Church, Muldrow, Oklahoma: a passage of Scripture opened up, and a thought to carry into the week.",
+    devotions_body))
+print("devotions.html written (%d devotion(s))" % len(DEV))
+
+
+# One page per devotion, under devotions/. Those pages sit a level down, so every
+# link and asset they carry is written with a ../ prefix.
+def devotion_article(d):
+    figure = ""
+    if d.get("image"):
+        f, alt = d["image"]
+        figure = ("""      <figure class="figure devotion__figure">
+        <img src="../assets/img/%(f)s" srcset="../assets/img/%(stem)s-640.jpg 640w, ../assets/img/%(f)s 1024w" sizes="(max-width: 46rem) 100vw, 40rem" alt="%(alt)s">
+      </figure>
+""" % dict(f=f, stem=f[:-4], alt=alt))
+
+    video = ""
+    if d.get("video"):
+        video = ("""        <div class="video-embed">
+          <iframe src="https://www.youtube-nocookie.com/embed/%(v)s" title="%(t)s" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+""" % dict(v=d["video"], t=d["title"].replace('"', "&quot;")))
+
+    refs = "\n".join("        <li>%s</li>" % r for r in d["refs"])
+
+    return """  <article class="devotion">
+    <div class="wrap wrap--narrow">
+      <nav class="subnav" aria-label="Study Material">
+        <p><a href="../study-material.html">Study Material</a> <span aria-hidden="true">&rsaquo;</span> <a href="../devotions.html">Devotions</a> <span aria-hidden="true">&rsaquo;</span> %(title)s</p>
+      </nav>
+
+      <header class="devotion__head">
+        <p class="meta">%(label)s &middot; %(author)s</p>
+        <h1>%(title)s</h1>
+        <p class="devotion__scripture">%(scripture)s</p>
+      </header>
+
+%(figure)s      <div class="prose devotion__body">
+%(video)s%(text)s
+      </div>
+
+      <hr>
+
+      <h2>Scriptures in this devotion</h2>
+      <ul class="ref-list">
+%(refs)s
+      </ul>
+
+      <p><a class="btn" href="../devotions.html">All devotions</a></p>
+    </div>
+  </article>
+""" % dict(title=d["title"], label=d["label"], author=d["author"], scripture=d["scripture"],
+           figure=figure, video=video, text=d["body"], refs=refs)
+
+
+for d in DEV:
+    open(os.path.join(DEVOTIONS_DIR, d["slug"] + ".html"), "w", encoding="utf-8").write(render(
+        "devotions/%s.html" % d["slug"],
+        "%s &mdash; Devotions &mdash; East Side Free Will Baptist Church" % d["title"],
+        d["summary"],
+        devotion_article(d),
+        base="../"))
+print("devotions/ written (%d page(s))" % len(DEV))
 
 
 # ----------------------------------------------------------------- give
@@ -1329,7 +1757,7 @@ notfound = """<!DOCTYPE html>
         <li><a href="index.html">Home</a> &mdash; service times, where we are, and what to expect</li>
         <li><a href="ministries.html">Ministries</a> &mdash; children, students, adults, and care
         ministries</li>
-        <li><a href="sermons.html">Sermons</a> &mdash; watch a service, or find a message</li>
+        <li><a href="study-material.html">Study Material</a> &mdash; sermons to watch and devotions to read</li>
         <li><a href="contact.html">Contact</a> &mdash; phone, email, directions, and prayer requests</li>
       </ul>
       <p><a class="btn" href="index.html">Back to the home page</a></p>
@@ -1349,18 +1777,19 @@ print("404.html written")
 
 SITEMAP_PAGES = [
     ("", "1.0"), ("about.html", "0.8"), ("beliefs.html", "0.8"),
-    ("ministries.html", "0.8"), ("calendar.html", "0.7"), ("announcements.html", "0.7"), ("sermons.html", "0.7"),
+    ("ministries.html", "0.8"), ("calendar.html", "0.7"), ("announcements.html", "0.7"),
+    ("study-material.html", "0.8"), ("sermons.html", "0.7"), ("devotions.html", "0.7"),
     ("give.html", "0.6"), ("contact.html", "0.9"),
-]
+] + [("devotions/%s.html" % d["slug"], "0.6", d["date"]) for d in DEV]
 
 today = datetime.date.today().isoformat()
 rows = ['<?xml version="1.0" encoding="UTF-8"?>',
         '<!-- Generated by build_site.py - do not edit by hand. -->',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-for path, prio in SITEMAP_PAGES:
+for path, prio, *rest in SITEMAP_PAGES:
     rows += ['  <url>',
              '    <loc>https://eastsidefwbc.org/%s</loc>' % path,
-             '    <lastmod>%s</lastmod>' % today,
+             '    <lastmod>%s</lastmod>' % (rest[0] if rest else today),
              '    <priority>%s</priority>' % prio,
              '  </url>']
 rows.append('</urlset>')

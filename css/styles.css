@@ -647,3 +647,71 @@ h2[id], h3[id] { scroll-margin-top: 1.5rem; }
 .give-goal__pct {
   margin-top: 0.5rem; font-size: 0.875rem; color: var(--ink-soft);
 }
+
+/* ==========================================================================
+   Study Material - the section, and the devotions under it
+   ========================================================================== */
+
+/* The way back up. Shown on sermons.html, devotions.html and every devotion. */
+.subnav { margin-bottom: 1.5rem; }
+.subnav p {
+  margin: 0; font-size: 0.8125rem; letter-spacing: 0.04em; color: var(--ink-faint);
+}
+.subnav a { color: var(--ink-soft); text-decoration-color: var(--gold-light); }
+.subnav a:hover { color: var(--gold); }
+
+/* The two cards on study-material.html. */
+.card--study h2 { font-size: clamp(1.35rem, 1.15rem + 1vw, 1.9rem); margin-bottom: 0.6rem; }
+.card--study .btn { margin-top: 0.5rem; }
+
+/* --- the devotions index ------------------------------------------------ */
+
+.devotion-list {
+  list-style: none; margin: 1.5rem 0 2rem; padding: 0;
+  display: grid; gap: 1.25rem;
+}
+.devotion-item {
+  background: var(--paper); border: 1px solid var(--rule);
+  border-left: 3px solid var(--gold-light); border-radius: var(--radius);
+  padding: 1.5rem 1.75rem;
+}
+.devotion-item h3 { margin-bottom: 0.4rem; }
+.devotion-item p:last-child { margin-bottom: 0; }
+.devotion-meta {
+  font-family: var(--sans); font-size: 0.75rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem;
+}
+.devotion-scripture {
+  font-family: var(--serif); font-size: 0.9375rem; color: var(--ink-faint);
+  margin-bottom: 0.75rem;
+}
+
+/* --- a devotion on its own page ----------------------------------------- */
+
+.devotion__head { margin-bottom: 1.75rem; }
+.devotion__head .meta {
+  font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.6rem;
+}
+.devotion__scripture {
+  font-family: var(--serif); font-size: 1.0625rem; color: var(--ink-soft); margin: 0;
+}
+.devotion__figure { margin: 0 0 2rem; }
+.devotion__figure img { width: 100%; border-radius: var(--radius); }
+.devotion__body > p:first-child { margin-top: 0; }
+
+.ref-list {
+  list-style: none; margin: 1.25rem 0 2rem; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 0.35rem 1.5rem;
+}
+.ref-list li { font-size: 0.875rem; color: var(--ink-soft); }
+.ref-list li::before { content: "\2014\00a0"; color: var(--gold-light); }
+
+/* Video embeds (a devotion recorded later, or a sermon). Nothing loads from
+   YouTube until the frame itself is here, and nothing loads at all unless a
+   video has actually been added. */
+.video-embed { margin: 0 0 2rem; }
+.video-embed iframe {
+  width: 100%; aspect-ratio: 16 / 9; height: auto;
+  border: 0; border-radius: var(--radius); background: #000;
+}
