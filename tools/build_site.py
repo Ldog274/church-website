@@ -1309,8 +1309,7 @@ devotions_body = """  <section>
       </ul>
 
       <div class="callout callout--quiet">
-        <p>New devotions are added here as they are written, and each one is shared on our
-        <a href="%(fb)s">Facebook page</a> when it goes up.</p>
+        <p>New devotions are added here as they are written.</p>
       </div>
     </div>
   </section>
