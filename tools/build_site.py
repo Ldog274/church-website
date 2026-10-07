@@ -671,52 +671,13 @@ print("ministries.html written")
 
 
 # ----------------------------------------------------------------- calendar
-# The church's own September-November 2026 calendar sheet, transcribed. Each
+# The church's own October-December 2026 calendar sheet, transcribed. Each
 # month is a list of (day, [(time, title), ...]) in the order the sheet lists
 # them. To update, edit this table and re-run the generator - never the HTML.
 # Times the sheet left blank are recorded as None and simply omit the time.
-MONTH_NUM = {"September": 9, "October": 10, "November": 11}
+MONTH_NUM = {"October": 10, "November": 11, "December": 12}
 
 CHURCH_CALENDAR = [
-    ("September 2026", [
-        (2,  [("7:00 PM", "Bro. Trenton Forever devotion at the Activities Center"),
-              ("7:00 PM", "WAC"),
-              ("7:00 PM", "Men&rsquo;s Bible Study"),
-              (None,    "Bro. Logan devotion"),
-              (None,    "Bro. A out of office")]),
-        (3,  [(None,    "Bro. A out of office")]),
-        (4,  [(None,    "Bro. A out of office"),
-              (None,    "East Side feeds the Needs Band (50)")]),
-        (5,  [("8:00 AM", "5K Color Run &mdash; &ldquo;Faith in Motion&rdquo; fundraiser"),
-              (None,    "Bro. A out of office")]),
-        (6,  [(None,    "Vision Fund Sunday")]),
-        (7,  [(None,    "Muldrow Schools &mdash; no school (Labor Day)")]),
-        (8,  [("10:30 AM", "WWBS"),
-              ("6:30 PM",  "BATTL")]),
-        (9,  [("10:30 AM", "Flanna Hills Nursing Home service"),
-              ("7:00 PM",  "Men&rsquo;s Bible Study")]),
-        (12, [("10:00 AM", "Semi-annual ARVA meeting at Mineral Springs FWB &mdash; speaker Lee Rogers")]),
-        (13, [("6:00 PM",  "PM worship with Bro. Logan"),
-              (None,      "Grandparents Day")]),
-        (15, [("10:30 AM", "WWBS"),
-              ("6:30 PM",  "BATTL")]),
-        (16, [("7:00 PM",  "WAC"),
-              ("7:00 PM",  "Men&rsquo;s Bible Study")]),
-        (20, [(None,      "&ldquo;Chair&rdquo; offering")]),
-        (22, [("10:30 AM", "WWBS"),
-              ("6:30 PM",  "BATTL")]),
-        (23, [("7:00 PM",  "Men&rsquo;s Bible Study")]),
-        (25, [(None,      "East Side feeds the football and cheer squads (75)")]),
-        (27, [(None,      "WAC &ldquo;Dollar Days for Missions&rdquo; offering"),
-              (None,      "Family &ldquo;All-in-One&rdquo; worship"),
-              ("6:00 PM",  "Revival with Bro. Earl Roberts")]),
-        (28, [("7:00 PM",  "Revival with Bro. Earl Roberts")]),
-        (29, [("10:30 AM", "WWBS"),
-              ("6:30 PM",  "BATTL"),
-              ("7:00 PM",  "Revival with Bro. Earl Roberts")]),
-        (30, [("7:00 PM",  "Revival with Bro. Earl Roberts"),
-              ("7:00 PM",  "Men&rsquo;s Bible Study")]),
-    ]),
     ("October 2026", [
         (1,  [("6:30&ndash;8:00 PM", "GriefShare in the Fellowship Hall")]),
         (4,  [(None,      "Vision Fund Sunday")]),
@@ -781,6 +742,43 @@ CHURCH_CALENDAR = [
               (None,      "Muldrow Schools &mdash; no school (Thanksgiving week)")]),
         (27, [(None,      "Muldrow Schools &mdash; no school (Thanksgiving week)")]),
         (29, [(None,      "Family &ldquo;All-in-One&rdquo; worship")]),
+    ]),
+    ("December 2026", [
+        (1,  [("10:30 AM", "WWBS"),
+              ("6:30 PM",  "BATIL")]),
+        (2,  [("7:00 PM",  "TOC Walk-Through"),
+              (None,      "No services")]),
+        (5,  [("6:30&ndash;8:30", "Tour of Christmas at the Activities Center (tentative)")]),
+        (6,  [(None,      "Vision Fund Sunday"),
+              ("6:30&ndash;8:30", "Tour of Christmas at the Activities Center (tentative)")]),
+        (8,  [("10:30 AM", "WWBS"),
+              ("6:30 PM",  "BATIL")]),
+        (9,  [("10:30", "Fianna Hills Nursing Home service")]),
+        (13, [("6:00 PM",  "PM services")]),
+        (15, [("10:30 AM", "WWBS"),
+              ("6:30 PM",  "BATIL")]),
+        (16, [("7:00 PM",  "WAC"),
+              ("7:00 PM",  "Men&rsquo;s Bible Study")]),
+        (19, [(None,      "Activities Center booked")]),
+        (21, [(None,      "Muldrow Schools Christmas Break 12/21/26-1/1/27")]),
+        (22, [("6:30 PM",  "BATIL"),
+              (None,      "Muldrow Schools Christmas Break 12/21/26-1/1/27")]),
+        (23, [(None,      "Services &mdash; to be announced"),
+              (None,      "Muldrow Schools Christmas Break 12/21/26-1/1/27")]),
+        (24, [(None,      "Muldrow Schools Christmas Break 12/21/26-1/1/27"),
+              (None,      "Christmas Eve")]),
+        (25, [(None,      "Muldrow Schools Christmas Break 12/21/26-1/1/27"),
+              (None,      "Christmas Day")]),
+        (27, [(None,      "Family &ldquo;All-in-One&rdquo; worship service"),
+              (None,      "WAC &ldquo;Dollar Days for Missions&rdquo; offering"),
+              ("6:00 PM", "PM services")]),
+        (28, [(None,      "Muldrow Schools Christmas Break 12/21/26-1/1/27")]),
+        (29, [("6:30 PM",  "BATIL"),
+              (None,      "Muldrow Schools Christmas Break 12/21/26-1/1/27")]),
+        (30, [("7:00 PM", "Men&rsquo;s Bible Study"),
+              (None,      "Muldrow Schools Christmas Break 12/21/26-1/1/27")]),
+        (31, [(None,      "Muldrow Schools Christmas Break 12/21/26-1/1/27"),
+              (None,      "New Year&rsquo;s Eve")]),
     ]),
 ]
 
@@ -872,7 +870,7 @@ calendar_body = """  <section>
         Activities Center, %(act)s</p>
       </div>
 
-      <h2 class="spaced">September, October, and November 2026</h2>
+      <h2 class="spaced">October, November, and December 2026</h2>
 %(cal)s
 
       <p class="fine-print">A few entries on the church calendar carry no time listed; those show the
