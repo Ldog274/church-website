@@ -13,7 +13,10 @@ no framework and no dependencies - just HTML and one CSS file.
 - `beliefs.html` - the gospel in short, then what we teach and preach
 - `ministries.html` - children, students, adults, care ministries, community outreach
 - `calendar.html` - church calendar
+- `study-material.html` - the shelf: sermons and devotions
 - `sermons.html` - watch a service and find a message
+- `devotions.html` - the devotion blog: the index of everything written so far
+- `devotions/<slug>.html` - one page per devotion
 - `give.html` - giving
 - `contact.html` - contact details and a message form
 - `404.html` - shown for a bad URL
@@ -43,6 +46,29 @@ python tools/build_site.py
 
 The generator writes into the folder given by `D` at the top of the file, so point that at
 this repository before running it.
+
+## Adding a devotion
+
+Devotions are generated from the `DEVOTIONS` list in `tools/build_site.py`. Adding one entry
+there writes the page, adds it to `devotions.html` and puts it in `sitemap.xml` - nothing else
+needs touching, and the order in the list does not matter (pages are sorted by date, newest
+first). Each entry takes:
+
+| Field | What it is |
+|---|---|
+| `slug` | the file name, no spaces: `devotions/<slug>.html` |
+| `title`, `label`, `date` | the title; the date as it reads ("October 7, 2026"); the ISO date, which drives ordering and the sitemap |
+| `author`, `scripture`, `summary` | the byline; the passage line under the title; one or two sentences for the index |
+| `refs` | the passages used, listed at the foot of the page |
+| `body` | the article, as HTML |
+| `image` | optional `("file-in-assets-img", "alt text")` |
+| `video` | optional YouTube video id. Until it is set, no video appears on the page |
+
+So a devotion recorded on video later needs one line added - the video id - and a rebuild. The
+same applies to a sermon: the archive comment in the generator shows the embed to paste in.
+
+If a devotion is ever withdrawn, remove its entry and rebuild; the page file stays behind on
+disk unless it is deleted by hand, so delete `devotions/<slug>.html` too.
 
 ## The calendar
 
